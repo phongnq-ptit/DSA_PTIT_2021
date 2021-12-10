@@ -1,0 +1,72 @@
+Trong một buổi học toán, giáo viên viết 2 số nguyên, A và B, và yêu cầu Tèo thực hiện phép cộng. 
+Tèo không bao giờ tính toán sai, nhưng thỉnh thoảng cậu ta chép các con số một cách không chính xác. 
+Lỗi duy nhất của là ghi nhầm '5' thành '6' hoặc ngược lại.  
+Cho hai số, A và B, tính tổng nhỏ nhất và lớn nhất mà Tèo có thể nhận được.
+
+Input: 
+	Có một dòng chứa hai số nguyên dương A và B ( 1 ≤ A, B ≤ 1 000 000).
+
+Output: 
+	In ra 2 số nguyên cách nhau một dấu cách, tổng nhỏ nhất và lớn nhất có thể nhận được.
+
+
+
+Test 1
+
+Input:
+11 25
+
+Ouput:
+36 37
+
+Test 2
+
+Input:
+1430 4862
+
+Ouput:
+6282 6292
+
+Test 3
+
+Input:
+16796 58786
+
+Ouput:
+74580 85582
+
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+int convert_to_5(string s){
+    for(int i = 0; i < s.length(); i++){
+        if(s[i] == '6') s[i] = '5';
+    }
+    return atoi(s.c_str());
+}
+
+int convert_to_6(string s){
+    for(int i = 0; i < s.length(); i++){
+        if(s[i] == '5') s[i] = '6';
+    }
+    return atoi(s.c_str());
+}
+
+void solve(){
+    string a, b; cin>>a>>b;
+
+    int max_sum = convert_to_6(a) + convert_to_6(b);
+    int min_sum = convert_to_5(a) + convert_to_5(b);
+
+    cout<<min_sum<<" "<<max_sum;
+}
+
+int main(){
+    solve();
+    return 0;
+}
+ 
+
+ 

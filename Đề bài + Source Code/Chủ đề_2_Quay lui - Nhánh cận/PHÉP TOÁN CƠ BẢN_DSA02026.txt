@@ -1,0 +1,102 @@
+Cho một biểu thức trong phạm vi hai chữ số với các phép toán cộng trừ nhân chia. 
+Các toán hạng và kết quả đảm bảo là số nguyên dương có hai chữ số, nếu có phép chia thì phải thỏa mãn tính chia hết.
+Người ta có thể ẩn đi một số chữ số hoặc phép toán bằng cách điền dấu chấm hỏi (?). 
+Nhiệm vụ của bạn là khôi phục các dấu chấm hỏi và in ra phép toán chính xác ban đầu. 
+Nếu không thể có kết quả đúng thì ghi ra WRONG PROBLEM!
+
+Dữ liệu vào
+	Dòng đầu ghi số bộ test T (1 ≤ T ≤ 100).
+	T dòng tiếp theo, mỗi dòng là một biểu thức có thể có các dấu ?.
+	Nếu có thể có nhiều kết quả đúng thì in ra kết quả đầu tiên theo thứ tự từ điển, 
+	tức là số nhỏ nhất có thể tính từ trái sang phải.
+
+Kết quả
+	Với mỗi bộ test, ghi ra biểu thức đúng tìm được. Hoặc WRONG PROBLEM!
+
+Input
+
+2
+?0 ? 12 = 28
+40 / ?3 = ??
+
+Output
+
+40 - 12 = 28
+
+WRONG PROBLEM!
+
+
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+string res, str;
+bool check;
+
+void back_track(string &str){
+    if(check) return;
+
+    int pos = -1;
+    for(int i = 0; i < str.length(); i++){
+        if(str[i] == '?'){
+            pos = i;
+            break;
+        }
+    }
+
+    if(pos != -1){
+        if(pos == 3){
+            str[pos] = '+'; back_track(str);
+            str[pos] = '-'; back_track(str);
+            str[pos] = '?';
+        } else {
+            for(char i = '0'; i <= '9'; i++){
+                if(i == '0' && (pos == 0 || pos == 5 || pos == 10)) continue;
+                str[pos] = i;
+                back_track(str);
+                str[pos] = '?';
+            }
+        }
+    } else {
+        int operand_1 = stoi(str.substr(0, 2));
+        int operand_2 = stoi(str.substr(5, 2));
+        int ans = stoi(str.substr(10, 2));
+
+        if(str[3] == '+' && (operand_1 + operand_2 == ans)) {
+            res = str;
+            check = true;
+        }
+        if(str[3] == '-' && (operand_1 - operand_2 == ans)) {
+            res = str;
+            check = true;
+        }
+    }
+        
+}
+
+void solve(){
+    check = false;
+    res = "WRONG PROBLEM!";
+    getline(cin, str);
+
+    if(str[3] == '*' || str[3] == '/'){
+        cout<<res<<endl;
+        return;
+    }
+
+    back_track(str);
+
+    cout<<res<<endl;
+}
+
+int main(){
+    ios_base::sync_with_stdio(0); cin.tie(0);
+    int a; cin>>a; cin.ignore();
+    while(a--){
+        solve();
+    }
+    return 0;
+}
+
+ 

@@ -1,0 +1,96 @@
+Cho ma trận vuông A kích thước N x N. 
+Nhiệm vụ của bạn là hãy tính ma trận X = A^K với K là số nguyên cho trước. 
+Đáp số có thể rất lớn, hãy in ra kết quả theo modulo 10^9+7.
+
+Input:
+	Dòng đầu tiên là số lượng bộ test T (T ≤ 100).
+	Mỗi test bắt gồm một số nguyên N và K (1 ≤ N ≤ 10, 1 ≤ K ≤ 10^9) là kích thước của ma trận và số mũ.
+Output: 
+	Với mỗi test, in ra kết quả của ma trận X.
+
+
+Input:
+
+2
+
+2 5
+
+1 1
+
+1 0
+
+3 1000000000
+
+1 2 3
+
+4 5 6
+
+7 8 9
+
+Output
+
+8 5
+
+5 3
+
+597240088 35500972 473761863
+
+781257150 154135232 527013321
+
+965274212 272769492 580264779
+
+ 
+
+#include<bits/stdc++.h>
+
+using namespace std;
+typedef long long ll;
+const ll MOD = 1e9 + 7;
+int n, k; 
+
+vector< vector<ll> > mul_matrix(vector< vector<ll> > a, vector< vector<ll> > b){
+    vector< vector<ll> > tmp(n, vector<ll>(n, 0));
+
+    for(int i = 0; i < n; i++){
+        for(int j = 0; j < n; j++){
+            for(int p = 0; p < n; p++){
+                tmp[i][j] += (a[i][p] % MOD * b[p][j] % MOD) % MOD;
+                tmp[i][j] %= MOD;
+            }
+        }
+    }
+
+    return tmp;
+}
+
+vector< vector<ll> > power(vector< vector<ll> > a, ll k){
+    if(k == 1) return a;
+    vector< vector<ll> > ans = power(a, k/2);
+    if(k%2 == 0) return mul_matrix(ans, ans);
+    else return mul_matrix(a, mul_matrix(ans, ans));
+}
+
+void solve(){
+    cin>>n>>k;
+    vector< vector<ll> > matrix(n, vector<ll>(n));
+    for(int i = 0; i < n; i++)
+        for(int j = 0; j < n; j++)
+            cin>>matrix[i][j];
+
+    vector< vector<ll> > res = power(matrix, k);
+    for(int i = 0; i < n; i++){
+        for(int j = 0; j < n; j++)
+            cout<<res[i][j]<<" ";
+        cout<<endl;
+    }
+}
+
+int main(){
+    int a; cin>>a;
+    while(a--){
+        solve();
+    }
+    return 0;
+}
+
+ 

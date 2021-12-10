@@ -1,0 +1,69 @@
+Cho hai số nguyên dương L, R. Hãy đưa ra số các số K trong khoảng [L, R] thỏa mãn điều kiện:
+	Tất cả các chữ số của K đều khác nhau.
+	Tất cả các chữ số của K đều nhỏ hơn hoặc bằng 5.
+Ví dụ với L = 4, R = 13 ta có 5 số thỏa mãn yêu cầu là 4, 5, 10, 12, 13,
+
+Input:
+	Dòng đầu tiên đưa vào số lượng test T.
+	Dòng tiếp theo đưa vào các bộ test. Mỗi bộ test được là một cặp L, R được viết trên một dòng.
+	T, L, R thỏa mãn ràng buộc: 1≤T≤100; 0≤L≤R≤105.
+Output:
+	Đưa ra kết quả mỗi test theo từng dòng.
+
+
+Input
+
+2
+
+4  13
+
+100  1000
+
+Output
+
+5
+
+100
+
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+bool check(int n){
+	priority_queue<int> que;
+	while(n != 0) {
+		que.push(n%10);
+		n /= 10;
+	}
+	
+	if(que.top() > 5) return false;
+	
+	while(que.size() > 1){
+		int tmp = que.top(); que.pop();
+		if(tmp == que.top()) return false;
+	}
+	
+	return true;
+}
+
+void solve(){
+	int l, r; cin>>l>>r;
+	if(l > r) swap(l, r);
+	
+	int count = 0;
+	for(int i = l; i <= r; i++){
+		if(check(i)) count++;
+	}
+	
+	cout<<count<<endl;
+}
+
+int main(){
+	int a; cin>>a;
+	while(a--){
+		solve();
+	}
+	return 0;
+}
+ 

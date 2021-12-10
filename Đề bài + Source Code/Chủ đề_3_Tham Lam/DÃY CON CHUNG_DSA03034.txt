@@ -1,0 +1,97 @@
+Cho dãy số A[], B[] và C[] là dãy không giảm và có lần lượt N, M, K phần tử. 
+Nhiệm vụ của bạn là hãy tìm các phần tử chung của 3 dãy số này.
+
+Input:
+	Dòng đầu tiên là số lượng bộ test T (T ≤ 20).
+	Mỗi test gồm số nguyên N, M và K (1≤ N, M, K ≤ 100 000).
+	Dòng tiếp theo gồm N số nguyên A[i], rồi M số nguyên B[i] và K số nguyên C[i].
+	(0 ≤ A[i], B[i], C[i] ≤ 10^9).
+
+Output: 
+	Với mỗi test, in ra trên một dòng là đáp án thu được. 
+	Nếu không tìm được đáp án, in ra “NO”.
+
+
+Input:
+
+3
+
+6 5 8
+
+1 5 10 20 40 80
+
+5 7 20 80 100
+
+3 4 15 20 30 70 80 120
+
+3 5 4
+
+1 5 5
+
+3 4 5 5 10
+
+5 5 10 20
+
+3 3 3
+
+1 2 3
+
+4 5 6
+
+7 8 9
+
+Output
+
+20 80
+
+5 5
+
+NO
+
+ 
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+int n, m, k;
+vector<int> a, b, c;
+
+void init(vector<int> &arr, int n){
+    for(int i = 0; i < n; i++){
+        int value; cin>>value;
+        arr.push_back(value);
+    }
+}
+
+void result(){
+    bool check = true;
+    int x = 0, y = 0, z = 0;
+    while(x < n && y < m && z < k){
+        if(a[x] == b[y] && b[y] == c[z]){
+            cout<<a[x]<<" ";
+            check = false;
+            x++; y++; z++;
+        }
+        else if(a[x] < b[y]) x++;
+        else if(b[y] < c[z]) y++;
+        else z++;
+    }
+    if(check) cout<<"NO";
+}
+
+void solve(){
+    a.clear(); b.clear(); c.clear();
+    cin>>n>>m>>k;
+    init(a, n); init(b, m); init(c, k);
+    result();
+    cout<<endl;
+}
+
+int main(){
+    int a; cin>>a;
+    while(a--){
+        solve();
+    }
+    return 0;
+}

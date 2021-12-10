@@ -1,0 +1,76 @@
+Một người có cái túi thể tích V (V<1000). 
+Anh ta có N đồ vật cần mang theo (N≤1000), mỗi đồ vật có thể tích là A[i] (A[i]≤100) và giá trị là C[i] (C[i]≤100). 
+Hãy xác định tổng giá trị lớn nhất của các đồ vật mà người đó có thể mang theo, sao cho tổng thể tích không vượt quá V.
+
+Input
+	Dòng đầu ghi số bộ test T (T<10)
+	Mỗi bộ test gồm ba dòng. 
+		Dòng đầu ghi 2 số N và V. 
+		Dòng tiếp theo ghi N số của mảng A. 
+		Sau đó là một dòng ghi N số của mảng C.
+	Dữ liệu vào luôn đảm bảo không có đồ vật nào có thể tích lớn hơn V.
+Output
+	Với mỗi bộ test, ghi trên một dòng giá trị lớn nhất có thể đạt được.
+
+Input
+
+1
+
+15 10
+
+5 2 1 3 5 2 5 8 9 6 3 1 4 7 8
+
+1 2 3 5 1 2 5 8 7 4 1 2 3 2 1
+
+Output
+
+15
+
+ 
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+int result[1005][1005]; // kết quả của giá trị lớn nhất khi lấy i đồ vật có thể tích là j
+/*
+    n : là số đồ vật có thể lấy
+    v : thể tích của cái túi
+    wei[i] : thể tích của đồ vật thứ i
+    val[i]: giá trị của đồ vật thứ i
+*/
+void solve(){
+    int n, v; cin>>n>>v;
+    vector<int> wei(n + 5), val(n + 5);
+    for(int i = 1; i <= n; i++) cin>>wei[i];
+    for(int i = 1; i <= n; i++) cin>>val[i];
+
+    /*
+        hàng là đồ vật thứ i được chọn
+        cột là thể tích của cái túi khi có đồ vật thứ i được thêm vào
+    */
+
+    // khởi tạo giá trị khi không lấy đồ vật gì
+    // hoặc thể tích cái túi bằng 0
+    memset(result, 0, sizeof(result));
+
+    // công thức truy hồi là:
+    // giá trị lớn nhất giữa việc lấy đồ vật đó hoặc không lấy đồ vật đó
+    for(int i = 1; i <= n; i++){
+        for(int j = 1; j <= v; j++){
+            result[i][j] = result[i - 1][j];
+            if(j >= wei[i])
+                result[i][j] = max(result[i - 1][j - wei[i]] + val[i], result[i - 1][j]);
+        }
+    }
+
+    cout<<result[n][v]<<endl;
+}
+
+int main(){
+    int a; cin>>a;
+    while(a--){
+        solve();
+    }
+    return 0;
+}

@@ -1,0 +1,64 @@
+Cho hai số N, K và một tập con K phần tử X[] =(X1, X2,.., XK) của 1, 2, .., N. 
+Nhiệm vụ của bạn là hãy đưa ra tập con K phần tử tiếp theo của X[]. 
+Ví dụ N=5, K=3, X[] ={2, 3, 4} thì tập con tiếp theo của X[] là {2, 3, 5}.
+
+Input:
+	Dòng đầu tiên đưa vào số lượng test T.
+	Những dòng kế tiếp đưa vào các bộ test. Mỗi bộ test gồm hai dòng: dòng thứ nhất là hai số N và K; dòng tiếp theo đưa vào K phần tử của X[] là một tập con K phần tử của 1, 2, .., N.
+	T, K, N, X[] thỏa mãn ràng buộc: 1≤T≤100; 1≤K≤N≤10^3.
+Output:
+	Đưa ra kết quả mỗi test theo từng dòng.
+
+
+Input
+
+2
+
+5  3
+
+1  4  5
+
+5  3
+
+3  4  5
+
+Output
+
+2  3  4
+
+1  2  3
+
+
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+void bai_lam(){
+	int n, k; cin>>n>>k;
+	int arr[k]; 
+	for(int i = 0; i < k; i++) cin>>arr[i];
+	
+	// pos se la vi tri co gia tri khac n - k + pos + 1 dau tien tinh tu phai qua trai
+	int pos = k - 1;
+	while(pos >= 0 && arr[pos] == n - k + pos + 1) pos--;
+	
+	if(pos < 0){
+		for(int i = 0; i < k; i++) arr[i] = i + 1; 
+	} else {
+		arr[pos] += 1;
+		int value = arr[pos];
+		for(int i = pos + 1; i < k; i++) arr[i] = ++value; 
+	}
+	
+	for(int i = 0; i < k; i++) cout<<arr[i]<<" ";
+	cout<<endl;
+}
+
+int main(){
+	int a; cin>>a; cin.ignore();
+	while(a--){
+		bai_lam();
+	}
+	return 0;
+}

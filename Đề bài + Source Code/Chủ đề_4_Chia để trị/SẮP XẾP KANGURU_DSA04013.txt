@@ -1,0 +1,64 @@
+Có N con kanguru trong vườn thú, con thứ i có chiều cao bằng A[i]. 
+Con kanguru có chiều cao X có thể chứa được một con có chiều cao bằng Y trong túi của nó nếu như X >= 2*Y.
+Một con đã chứa một con kanguru rồi, thì không thể nhảy vào túi một con kanguru khác.
+Bầy Kanguru rất thích chơi trốn tìm, vì vậy chúng thường xuyên nhảy vào túi của nhau. 
+Các bạn hãy tính toán xem trong trường hợp tối ưu, số con kanguru nhìn thấy trong vườn thú ít nhất bằng bao nhiêu?
+
+Input:
+	Dòng đầu tiên là số lượng bộ test T (T ≤ 20).
+	Mỗi test gồm số nguyên N (1 ≤ N ≤ 100 000).
+	Dòng tiếp theo gồm N số nguyên A[i] (1 ≤ A[i] ≤ 100 000).
+Output: 
+	Với mỗi test, in ra đáp án trên một dòng.
+
+Input
+
+2
+
+8
+
+2 5 7 6 9 8 4 2
+
+8
+
+9 1 6 2 6 5 8 3
+
+Output
+
+5
+
+5
+
+Giải thích test 1: Nhóm 2 – 5, 2 – 6, 4 – 8, 7, 9.
+
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+void solve(){
+    int n; cin>>n; 
+    vector<int> arr(n);
+    for(int &val: arr) cin>>val;
+
+    sort(arr.begin(), arr.end());
+
+    int right = n - 1, cnt = 0;
+    int mid = (n%2 == 0) ? (n/2 - 1) : (n/2);
+
+    for(int i = mid; i >= 0; i--){
+        if(arr[right] >= arr[i] * 2){
+            right--;
+            cnt++;
+        }
+    }
+
+    cout<<n - cnt<<endl;
+}
+
+int main(){
+    ios_base::sync_with_stdio(0); cin.tie(0);
+    int a; cin>>a;
+    while(a--) solve();
+    return 0;
+}

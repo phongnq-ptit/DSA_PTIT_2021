@@ -1,0 +1,80 @@
+Cho tập n xâu ký tự S và hai xâu s, t Î S. 
+Ta giả thiết các xâu ký tự S[i] Î S có độ dài bằng nhau.  
+Hãy tìm khoảng cách đường đi ngắn nhất từ s đến t. 
+Biết từ một xâu ký tự bất kỳ ta chỉ được phép dịch chuyển đến xâu khác với nó duy nhất 1 ký tự. 
+Ví dụ ta có tập các từ S = { POON, TOON, PLEE, SAME, POIE, PLEA, PLIE, POIN }, s = TOON, t = PLEA 
+ta có độ dài đường đi ngắn nhất là 7 tương ứng với các phép dịch chuyển : 
+	TOON -> POON –> POIN –> POIE –> PLIE –> PLEE –> PLEA.
+
+Input:
+	Dòng đầu tiên đưa vào số lượng test T (T≤100).
+	Mỗi test được tổ chức thành 2 dòng. 
+		Dòng thứ nhất ghi lại n là số từ trong S và hai từ s, t.  
+		Dòng thứ 2 đưa vào n xâu xâu ký tự của S; 
+		các xâu ký tự được viết cách nhau một vài khoảng trống, có độ dài không vượt quá 10 kí tự.
+Output:
+	Đưa ra kết quả mỗi test theo từng dòng.
+
+ 
+Input
+
+1
+
+8 TOON  PLEA
+
+POON TOON PLEE SAME  POIE  PLEA  PLIE  POIN
+
+Output
+
+7
+
+ 
+
+#include<bits/stdc++.h>
+
+using namespace std;
+set<string> dictionary, tick;
+
+int solve(){
+    dictionary.clear();
+    tick.clear();
+    int n; cin>>n;
+    string st, en, temp; cin>>st>>en;
+    while(n--){
+        cin>>temp;
+        dictionary.insert(temp);
+    }
+
+    queue<pair<string, int>> que; que.push({st, 1});
+    tick.insert(st);
+    while(!que.empty()){
+        auto tmp = que.front(); que.pop();
+        string value = tmp.first;
+        int step = tmp.second;
+
+        if(value == en) return step;
+
+        for(int i = 0; i < value.length(); i++){
+            char c = value[i];
+            for(char j = 'A'; j <= 'Z'; j++){
+                value[i] = j;
+                if(dictionary.find(value) != dictionary.end() && tick.find(value) == tick.end()){
+                    tick.insert(value);
+                    if(value == en) return step + 1;
+                    que.push({value, step + 1});
+                }
+            }
+            value[i] = c;
+        }
+    }
+    return -1;
+}
+
+int main(){
+    ios_base::sync_with_stdio(0); cin.tie(0);
+    int a; cin>>a;
+    while(a--){
+        cout<<solve()<<endl;
+    }
+    return 0;
+}

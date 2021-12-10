@@ -1,0 +1,56 @@
+Cho đơn đồ thị G vô hướng liên thông được mô tả bởi danh sách kề. 
+Hãy in ra danh sách cạnh tương ứng của G.
+
+Input
+	Dòng đầu tiên ghi số N là số đỉnh (1<N<50)
+	N dòng tiếp theo mỗi dòng ghi 1 danh sách kề lần lượt theo thứ tự từ đỉnh 1 đến đỉnh N
+Output: 
+	Ghi ra lần lượt từng cạnh của đồ thị theo thứ tự tăng dần.
+
+Input
+
+3
+
+2 3
+
+1 3
+
+1 2
+
+Output
+
+1 2
+
+1 3
+
+2 3
+
+
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+void solve(){
+    int vertex; cin>>vertex;
+    vector<int> canh[vertex + 5];
+
+    for(int i = 1; i <= vertex; i++){
+        scanf("\n");
+        string s, token; getline(cin, s);
+        stringstream ss(s);;
+        while(ss>>token) canh[i].push_back(stoi(token));
+    }
+
+    for(int i = 1; i <= vertex; i++){
+        for(int j = 0; j < canh[i].size(); j++){
+            if(i < canh[i][j]) cout<<i<<" "<<canh[i][j]<<endl;
+        }
+    }
+}
+
+int main(){
+    solve();
+    return 0;
+}
+ 

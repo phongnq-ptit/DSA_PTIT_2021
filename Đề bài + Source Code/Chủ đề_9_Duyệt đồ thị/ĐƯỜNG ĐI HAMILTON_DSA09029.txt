@@ -1,0 +1,78 @@
+Đường đi đơn trên đồ thị có hướng hoặc vô hướng đi qua tất cả các đỉnh của đồ thị mỗi đỉnh đúng một lần 
+được gọi là đường đi Hamilton. 
+Cho đồ thị vô hướng G = <V, E>, hãy kiểm tra xem đồ thị có đường đi Hamilton hay không?
+
+Input:
+	Dòng đầu tiên đưa vào số lượng bộ test T.
+	Những dòng kế tiếp đưa vào các bộ test. Mỗi bộ test gồm hai phần: 
+		phần thứ nhất đưa vào hai số V, E tương ứng với số đỉnh, số cạnh của đồ thị; 
+		phần thứ hai đưa vào các cạnh của đồ thị.
+	T, V, E thỏa mãn ràng buộc: 1≤T ≤100; 1≤V≤10; 1≤ E ≤15.
+Output:
+	Đưa ra 1 hoặc 0 tương ứng với test có hoặc không có đường đi Hamilton theo từng dòng.
+
+
+Input
+
+2
+4 4
+1 2 2 3 3 4 2 4
+4 3
+1 2 2 3 2 4
+
+Output
+
+1
+
+0
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+vector<int> List[1005];
+bool tick[1005], check;
+int U, V;
+
+void reset(){
+    for(int i = 1; i <= 1000; i++) List[i].clear();
+    memset(tick, false, sizeof(tick));
+    check = false;
+}
+
+void DFS(int u, int cnt){
+    if(cnt == U) check = true;
+    if(check) return;
+
+    tick[u] = true;
+    for(int val : List[u])
+        if(!tick[val])
+            DFS(val, cnt + 1);
+    tick[u] = false;
+}
+
+void solve(){
+    reset();
+    int u, v; cin>>U>>V;
+
+    while(V--){
+        cin>>u>>v;
+        List[u].push_back(v);
+        List[v].push_back(u);
+    }
+
+    for(int i = 1; i <= U; i++){
+        DFS(i, 1);
+
+        if(check) break;
+    }
+
+    cout<<(check? 1 : 0)<<endl;
+}
+
+int main(){
+    ios_base::sync_with_stdio(0); cin.tie(0);
+    int a; cin>>a;
+    while(a--) solve();
+    return 0;
+}

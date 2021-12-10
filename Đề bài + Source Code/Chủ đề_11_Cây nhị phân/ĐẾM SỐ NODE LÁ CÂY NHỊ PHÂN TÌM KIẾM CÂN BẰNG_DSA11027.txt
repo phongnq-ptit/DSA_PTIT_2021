@@ -1,0 +1,89 @@
+Hãy xây dựng một cây nhị phân tìm kiếm cân bằng từ dãy số A[] =(a0, a1, .., an-1}. 
+Đếm số node lá của cây nhị phân tìm kiếm cân bằng.  
+Ví dụ với dãy A[]={40, 28, 45, 38, 33, 15, 25, 20, 23, 35, 30} 
+ta sẽ có phép duyệt theo thứ tự trước của cây nhị phân tìm kiếm cân bằng với số node lá là 5 : 15, 23, 30, 35 45.
+
+Input:
+	Dòng đầu tiên đưa vào số lượng bộ test T (T≤100).
+	Những dòng kế tiếp đưa vào T bộ test. Mỗi bộ test gồm 2 dòng: 
+		dòng thứ nhất là số tự nhiên N (N≤1000). 
+		Dòng tiếp theo là N số của mảng A[].
+Output:
+	Đưa ra kết quả mỗi test theo từng dòng.
+
+
+Input:
+
+2
+
+11
+
+40  28  45 38  33  15  25  20  23  35  30
+
+10
+
+1  2  3  4  5  6  7  8  9  10
+
+Output
+
+4
+
+4
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+struct Node{
+    int data; 
+    Node *left, *right;
+    Node(int data){
+        this->data = data;
+        left = right = NULL;
+    }
+};
+
+vector<int> arr;
+
+Node *avl_tree(Node *tree, int st, int en){
+    int mid = (st + en) / 2;
+    tree = new Node(arr[mid]);
+    if(st < mid) tree->left = avl_tree(tree->left, st, mid - 1);
+    if(en > mid) tree->right = avl_tree(tree->right, mid + 1, en);
+    return tree;
+}
+
+int cnt;
+void node_leaf(Node *tree){
+    if(tree != NULL){
+        if(tree->left == NULL && tree->right == NULL)
+            cnt++;
+        node_leaf(tree->left);
+        node_leaf(tree->right);
+    }
+}
+
+void solve(){
+    arr.clear(); cnt = 0;
+    int n = 0; cin>>n;
+    arr.resize(n);
+    for(int &val: arr) cin>>val;
+    sort(arr.begin(), arr.end());
+
+    Node *tree = NULL;
+    tree = avl_tree(tree, 0, n - 1);
+
+    node_leaf(tree);
+    cout<<cnt<<endl;
+}
+
+int main(){
+    ios_base::sync_with_stdio(0); cin.tie(0);
+    int a; cin>>a;
+    while(a--) solve();
+    return 0;
+}
+
+ 
+
+ 

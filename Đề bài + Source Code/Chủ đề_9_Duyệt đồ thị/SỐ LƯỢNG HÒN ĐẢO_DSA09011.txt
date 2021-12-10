@@ -1,0 +1,87 @@
+Cho một bản đồ kích thước N x M được mô tả bằng ma trận A[][].A[i][j] = 1 có nghĩa vị trí (i, j) là nổi trên biển. 
+2 vị trí (i, j) và (x, y) được coi là liền nhau nếu như nó có chung đỉnh hoặc chung cạnh. 
+Một hòn đảo là một tập hợp các điểm (i, j) mà A[i][j] = 1 và có thể di chuyển giữa hai điểm bất kì trong đó.
+
+Nhiệm vụ của bạn là hãy đếm số lượng đảo xuất hiện trên bản đồ.
+
+Input: 
+	Dòng đầu tiên là số lượng bộ test T (T ≤ 20).
+	Mỗi test bắt đầu bởi 2 số nguyên N và M (1 ≤ N, M ≤ 500).
+	N dòng tiếp theo, mỗi dòng gồm M số nguyên A[i][j].
+Output:  
+	Với mỗi test, in ra số lượng hòn đảo tìm được.
+
+Input:
+
+
+1
+
+5 5
+
+1 1 0 0 0
+
+0 1 0 0 1
+
+1 0 0 1 1
+
+0 0 0 0 0
+
+1 0 1 0 1
+
+Output
+
+5
+
+#include<bits/stdc++.h>
+
+using namespace std;
+#define pii pair<int, int>
+
+vector<pii> vt;
+bool tick[505][505];
+int matrix[505][505];
+
+void solve(){
+    vt.clear();
+    memset(tick, false, sizeof(tick));
+    int n, m; cin>>n>>m;
+    for(int i = 1; i <= n; i++){
+        for(int j = 1; j <= m; j++){
+            cin>>matrix[i][j];
+            if(matrix[i][j] == 1) vt.push_back({i, j});
+        }
+    }
+
+    int cnt = 0;
+    for(int i = 0; i < vt.size(); i++){
+        if(!tick[vt[i].first][vt[i].second]){
+            tick[vt[i].first][vt[i].second] = true;
+            cnt++;
+            queue<pii> que; que.push({vt[i].first, vt[i].second});
+            while(!que.empty()){
+                pii tmp = que.front(); que.pop();
+                for(int row = tmp.first - 1; row <= tmp.first + 1; row++){
+                    for(int col = tmp.second - 1; col <= tmp.second + 1; col++){
+                        if(!tick[row][col] && matrix[row][col] == 1){
+                            tick[row][col] = true;
+                            que.push({row, col});
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    cout<<cnt<<endl;
+}
+
+int main(){
+    ios_base::sync_with_stdio(0); cin.tie(0);
+    int a; cin>>a;
+    while(a--){
+        solve();
+    }
+    return 0;
+}
+
+ 

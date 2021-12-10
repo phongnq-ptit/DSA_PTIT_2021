@@ -1,0 +1,73 @@
+Một dãy số được gọi là Bi-tonic nếu nó được chia thành hai dãy đầu tăng dần và dãy tiếp theo giảm dần. 
+Nhiệm vụ của bạn là tìm tổng lớn nhất dãy con Bi-tonic của dãy số A[]. 
+Ví dụ với dãy A[] = {1, 15, 51, 45, 33, 100, 12, 18, 9} ta có kết quả là 194 
+tương ứng với dãy Bi-tonic {1, 15, 51, 100, 18, 9}.
+
+Input:
+	Dòng đầu tiên đưa vào số lượng bộ test T.
+	Những dòng kế tiếp đưa vào các bộ test. Mỗi bộ test gồm hai dòng: 
+		dòng đầu tiên đưa vào N là số phần tử của dãy A[]; 
+		dòng tiếp theo đưa vào N số A[i]; 
+		các số được viết cách nhau một vài khoảng trống.
+	T, N, A[i] thỏa mãn ràng buộc: 1≤T≤100;  1≤N ≤100; 0≤A[i] ≤100.
+Output:
+	Đưa ra kết quả mỗi test theo từng dòng.
+
+Input
+
+2
+6
+80 60 30 40 20 10
+9
+1 15 51 45 33 100 12 18 9
+
+Output
+
+210
+194
+
+
+#include<bits/stdc++.h>
+
+using namespace std;
+typedef long long ll;
+
+void solve(){
+    ll n; cin>>n;
+    vector<ll> arr(n), sum_l(n, 0), sum_r(n, 0);
+    for(ll &x: arr) cin>>x;
+
+    // tổng dãy con lớn nhất từ trái qua
+    sum_l[0] = arr[0];
+    for(int i = 1; i < n; i++){
+        sum_l[i] = arr[i];
+        for(int j = 0; j < i; j++){
+            if(arr[j] < arr[i])
+                sum_l[i] = max(sum_l[i], sum_l[j] + arr[i]);
+        }
+    }
+
+    // tổng dãy con lớn nhất từ phải qua
+    sum_r[n - 1] = arr[n - 1];
+    for(int i = n - 2; i >= 0; i--){
+        sum_r[i] = arr[i];
+        for(int j = n - 1; j > i; j--){
+            if(arr[i] > arr[j])
+                sum_r[i] = max(sum_r[i], sum_r[j] + arr[i]);
+        }
+    }
+
+    ll res = INT_MIN;
+    for(int i = 0; i < n; i++)
+        res = max(res, sum_r[i] + sum_l[i] - arr[i]);
+
+    cout<<res<<endl;
+}
+
+int main(){
+    int a; cin>>a;
+    while(a--){
+        solve();
+    }
+    return 0;
+}

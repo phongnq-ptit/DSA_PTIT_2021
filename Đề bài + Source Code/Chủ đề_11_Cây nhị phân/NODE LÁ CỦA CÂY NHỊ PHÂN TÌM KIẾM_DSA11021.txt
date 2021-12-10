@@ -1,0 +1,89 @@
+Cho dãy số gồm N số là phép duyệt theo thứ tự trước (Preorder) của một cây nhị phân tìm kiếm. 
+Hãy in ra tất cả các node lá của cây ?
+
+Ví dụ với dãy A[] = {30, 20, 15, 25, 23, 28, 40, 35, 33, 38, 45} là phép duyệt cây theo thứ tự trước 
+sẽ cho ta kết quả: 15, 23, 28, 33, 38, 45.                                           
+
+Input:
+	Dòng đầu tiên đưa vào số lượng bộ test T (T≤100).
+	Những dòng kế tiếp đưa vào T bộ test. Mỗi bộ test gồm 2 dòng: 
+		dòng thứ nhất là số tự nhiên N (N≤1000). 
+		Dòng tiếp theo là N số là phép duyệt theo thứ tự trước của cây BST.
+Output:
+	Đưa ra kết quả mỗi test theo từng dòng.
+
+
+Input
+
+2
+
+6
+
+10 5 1 7 40 50
+
+11
+
+30 20 15 25 23 28 40 35 33 38 45
+
+Output
+
+1 7 50
+
+15 23 28 33 38 45
+
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+struct Node{
+    int data;
+    Node *left;
+    Node *right;
+    Node(int data){
+        this->data = data;
+        left = NULL;
+        right = NULL;
+    }
+};
+
+void insert_node(Node* &tree, int data){
+    if(tree == NULL) tree = new Node(data);
+    else{
+        if(data < tree->data) insert_node(tree->left, data);
+        else insert_node(tree->right, data);
+    } 
+}
+
+void preorder_NLR(Node* tree){
+    if(tree != NULL){
+        if(tree->left == NULL && tree->right == NULL){
+            cout<<tree->data<<" ";
+            return;
+        }
+        preorder_NLR(tree->left);
+        preorder_NLR(tree->right);
+    }
+}
+
+void solve(){
+    int n; cin>>n;
+    vector<int> arr(n);
+    Node *tree = NULL;
+    
+    for(int &x: arr) {
+        cin>>x;
+        insert_node(tree, x);
+    }
+    preorder_NLR(tree);
+    cout<<endl;
+}
+
+int main(){
+    int a; cin>>a;
+    while(a--){
+        solve();
+    }
+    return 0;
+}
+ 

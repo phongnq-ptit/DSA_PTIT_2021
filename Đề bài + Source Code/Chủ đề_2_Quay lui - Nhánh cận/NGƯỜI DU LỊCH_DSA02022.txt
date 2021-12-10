@@ -1,0 +1,80 @@
+Cho n thành phố đánh số từ 1 đến n và các tuyến đường giao thông hai chiều giữa chúng, 
+mạng lưới giao thông này được cho bởi mảng C[1…n, 1…n] 
+ở đây C[i][j] = C[j][i] là chi phí đi đoạn đường trực tiếp từ thành phố i đến thành phố j.
+Một người du lịch xuất phát từ thành phố 1, 
+muốn đi thăm tất cả các thành phố còn lại mỗi thành phố đúng 1 lần và cuối cùng quay lại thành phố 1. 
+Hãy chỉ ra chi phí ít nhất mà người đó phải bỏ ra.
+
+Dữ liệu vào: 
+	Dòng đầu tiên là số nguyên n – số thành phố (n ≤ 15); 
+	n dòng sau, mỗi dòng chứa n số nguyên thể hiện cho mảng 2 chiều C.
+
+Kết quả: 
+	Chi phí mà người đó phải bỏ ra.
+
+
+INPUT
+
+4
+
+0 20 35 10
+
+20 0 90 50
+
+35 90 0 12
+
+10 50 12 0
+
+OUTPUT
+
+117
+
+
+
+#include<bits/stdc++.h>
+
+using namespace std;
+typedef long long ll;
+
+ll n, res, total;
+ll city[20][20];
+ll tmp[20] = {};
+bool tick[20];
+
+void back_track(ll index){
+    for(ll i = 2; i <= n; i++){
+        if(tick[i]) continue;
+        tick[i] = true;
+        tmp[index] = i;
+        total += city[tmp[index - 1]][tmp[index]];
+        if(index == n) {
+            if(res > total + city[tmp[n]][tmp[1]]) res = total + city[tmp[n]][tmp[1]];
+        }
+        else if(total < res) back_track(index + 1);
+        total -= city[tmp[index - 1]][tmp[index]];
+        tick[i] = false;
+    }
+}
+
+void solve(){
+    ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
+    for(ll i = 1; i < 20; i++) tick[i] = false;
+    res = INT_MAX;
+    total = 0;
+    cin>>n;
+    for(ll i = 1; i <= n; i++)
+        for(ll j = 1; j <= n; j++)
+            cin>>city[i][j];
+    
+    tmp[1] = 1;
+    back_track(2);
+
+    cout<<res<<endl;
+}
+
+int main(){
+    solve();
+    return 0;
+}
+
+ 

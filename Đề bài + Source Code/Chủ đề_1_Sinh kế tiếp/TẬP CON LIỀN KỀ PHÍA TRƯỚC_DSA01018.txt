@@ -1,0 +1,74 @@
+Cho hai số N, K và một tập con K phần tử X[] =(X1, X2,.., XK) của 1, 2, .., N. 
+Nhiệm vụ của bạn là hãy đưa ra tập con K phần tử trước đó của X[]. 
+Ví dụ N=5, K=3, X[] ={2, 3, 5} thì tập con trước đó của X[] là {2, 3, 4}. 
+Chú ý nếu tập con trong input là đầu tiên thì trước đó là tập con cuối cùng.
+
+Input:
+	Dòng đầu tiên đưa vào số lượng test T.
+	Những dòng kế tiếp đưa vào các bộ test. Mỗi bộ test gồm hai dòng: 
+		dòng thứ nhất là hai số N và K; 
+		dòng tiếp theo đưa vào K phần tử của X[] là một tập con K phần tử của 1, 2, .., N.
+	T, K, N, X[] thỏa mãn ràng buộc: 1≤T≤100; 1≤K≤N≤103.
+Output:
+	Đưa ra kết quả mỗi test theo từng dòng.
+
+
+Input
+
+2
+
+5  3
+
+2  3  5
+
+5  3
+
+1  2  3
+
+Output
+
+2 3 4
+
+3 4 5
+
+ 
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+// y tuong lam tuong tu sinh to hop
+
+void solve(){
+	int n, k;
+	cin>>n>>k;
+	vector<int> arr(n);
+	for(int i = 0; i < k; i++) cin>>arr[i]; 
+	
+	int step = k;
+	while(step > 0 && arr[step] - arr[step - 1] <= 1) step--; // lap den khi khoang cach giua arr[i] va arr[i-1] > 1
+	
+	// neu cau hinh da cho la cau hinh cuoi cung
+	if(step == 0 && arr[0] == 1){
+		int val = n - k + 1;
+		for(int i = 0; i < k; i++) cout<<val++<<" ";
+		return;
+	}
+	
+	arr[step]--; // giam arr[step] di 1 don vi
+
+	int index = k - 1, tmp = n;
+	for(int i = index; i >= step + 1; i--) arr[i] = tmp--; // cac phan tu truoc step moi phan tu = phan tu lien sau -1
+	
+	// in ket qua
+	for(int i = 0; i < k; i++) cout<<arr[i]<<" ";
+	cout<<endl;
+}
+
+int main(){
+	int a; cin>>a;
+	while(a--) {
+		solve();
+	}
+	return 0;
+}

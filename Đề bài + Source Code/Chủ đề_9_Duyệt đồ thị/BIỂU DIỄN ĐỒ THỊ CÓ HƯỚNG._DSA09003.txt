@@ -1,0 +1,85 @@
+Cho đồ thị có hướng G=<V, E> được biểu diễn dưới dạng danh sách cạnh. 
+Hãy viết chương trình thực hiện chuyển đổi biểu diễn đồ thị dưới dạng danh sách kề.
+
+Input:
+	Dòng đầu tiên đưa vào T là số lượng bộ test.
+	Những dòng tiếp theo đưa vào các bộ test. Mỗi bộ test gồm |E| +1 dòng: 
+		dòng đầu tiên đưa vào hai số |V|, |E| tương ứng với số đỉnh và số cạnh của đồ thị; 
+		|E| dòng tiếp theo đưa vào các bộ đôi uÎV, vÎV tương ứng với một cạnh của đồ thị.
+	T, |V|, |E| thỏa mãn ràng buộc: 1≤T≤200; 1≤|V|≤103; 1≤|E|≤|V|(|V|-1)/2;
+Output:
+	Đưa ra danh sách kề của các đỉnh tương ứng theo khuôn dạng của ví dụ dưới đây. 
+	Các đỉnh trong danh sách in ra theo thứ tự tăng dần.
+
+Input:
+
+
+1
+
+6  9
+
+1  2
+
+2  5
+
+3  1
+
+3  2
+
+3  5
+
+4  3
+
+5  4
+
+5  6
+
+6  4
+
+Output:
+
+1: 2
+
+2: 5
+
+3: 1 2 5
+
+4: 3
+
+5: 4 6
+
+6: 4
+
+ 
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+void solve(){
+    int vertex, edge;
+    cin>>vertex>>edge;
+    vector<int> ke[vertex + 5];
+    int u, v;
+    for(int i = 0; i < edge; i++){
+        cin>>u>>v;
+        ke[u].push_back(v);
+    }
+
+    for(int i = 1; i <= vertex; i++)
+        sort(ke[i].begin(), ke[i].end());
+
+    for(int i = 1; i <= vertex; i++){
+        cout<<i<<": ";
+        for(int j = 0; j < ke[i].size(); j++) cout<<ke[i][j]<<" ";
+        cout<<endl;
+    }
+}
+
+int main(){
+    int a; cin>>a;
+    while(a--){
+        solve();
+    }
+    return 0;
+}

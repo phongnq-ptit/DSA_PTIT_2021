@@ -1,0 +1,54 @@
+Cho mảng A[] gồm n phần tử, hãy tìm k phần tử lớn nhất của mảng. 
+Các phần tử được đưa ra theo thứ tự giảm dần.
+
+Input:
+	Dòng đầu tiên đưa vào số lượng bộ test T.
+	Những dòng kế tiếp đưa vào các bộ test. Mỗi bộ test gồm hai dòng: dòng thứ nhất đưa vào N và K; dòng tiếp theo đưa vào n số A[i]; các số được viết cách nhau một vài khoảng trống.
+	T, N, K, A[i] thỏa mãn ràng buộc: 1≤T≤100; 1≤K < N ≤103, 1≤A[i] ≤106.
+Output:
+	Đưa ra k phần tử lớn nhất trên một dòng.
+
+
+Input:
+
+2
+5 3
+
+10 7 9 12 6
+
+6 2
+
+9 7 12 8 6 5
+
+Output: 
+
+12 10 9
+
+12 9
+
+ 
+
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+void solve(){
+    int n, k; cin>>n>>k;
+    vector<int> arr(n);
+
+    for(int i = 0; i < n; i++) cin>>arr[i];
+
+    sort(arr.begin(), arr.end(), greater<int>());
+
+    for(int i = 0; i < k; i++) cout<<arr[i]<<" ";
+    cout<<endl;
+}
+
+int main(){
+    int a; cin>>a;
+    while(a--){
+        solve();
+    }
+    return 0;
+}

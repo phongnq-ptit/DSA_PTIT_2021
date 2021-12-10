@@ -1,0 +1,57 @@
+Cho N  số nguyên dương tạo thành dãy A={A1, A2, ..., AN}. 
+Tìm ra một dãy con của dãy A (không nhất thiết là các phần tử liên tiếp trong dãy) có tổng bằng S cho trước.
+
+Input: 
+	Dòng đầu ghi số bộ test T (T<10).  
+	Mỗi bộ test có hai dòng, dòng đầu tiên ghi hai số nguyên dương N và S (0 < N ≤ 200) và S (0 < S ≤ 40000). 
+	Dòng tiếp theo lần lượt ghi N số hạng của dãy A là các số A1, A2, ..., AN (0 < Ai ≤ 200).
+
+Output:  
+	Với mỗi bộ test, nếu bài toán vô nghiệm thì in ra “NO”, ngược lại in ra “YES”
+
+
+Input
+
+2
+
+5 6
+1 2 4 3 5
+
+10 15
+
+2 2 2 2 2 2 2 2 2 2
+
+Output
+
+YES
+
+NO
+
+ 
+#include<bits/stdc++.h>
+
+using namespace std;
+
+void solve(){
+    int n, s; cin>>n>>s;
+    
+    vector<int> sum(s + 1, 0);
+    sum[0] = 1;
+    
+    while(n--){
+        int val; cin>>val;
+        for(int i = s; i >= val; i--)
+            if(sum[i - val] == 1) 
+                sum[i] = 1;
+    }
+
+    cout<<(sum[s] ? "YES" : "NO")<<endl;
+}
+
+int main(){
+    int a; cin>>a;
+    while(a--){
+        solve();
+    }
+    return 0;
+}

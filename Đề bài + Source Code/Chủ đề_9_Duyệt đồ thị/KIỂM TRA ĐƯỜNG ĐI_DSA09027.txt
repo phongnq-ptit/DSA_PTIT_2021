@@ -1,0 +1,95 @@
+Cho đồ thị vô hướng có N đỉnh và M cạnh. 
+Có Q truy vấn, mỗi truy vấn yêu cầu trả lời câu hỏi giữa 2 đỉnh x và y có tồn tại đường đi tới nhau hay không?
+
+Input:
+	Dòng đầu tiên là số lượng bộ test T (T ≤ 20).
+	Mỗi test gồm 2 số nguyên N, M (1 ≤ N, M ≤ 1000).
+	M dòng tiếp theo, mỗi dòng gồm 2 số nguyên u, v cho biết có cạnh nối giữa đỉnh u và v.
+	Dòng tiếp là số lượng truy vấn Q (1 ≤ Q ≤ 1000).
+	Q dòng tiếp theo, mỗi dòng gồm 2 số nguyên x và y.
+Output:  
+	Với mỗi truy vấn, in ra “YES” nếu có đường đi từ x tới y, in ra “NO” nếu ngược lại.
+
+
+Input:
+
+1
+
+6 5
+
+1 2
+
+2 3
+
+3 4
+
+1 4
+
+5 6
+
+2
+
+1 5
+
+2 4
+
+Output
+
+NO
+
+YES
+
+ 
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+vector<int> List[1005];
+bool tick[1005];
+
+void DFS(int u){
+    stack<int> st; st.push(u);
+    tick[u] = true;
+    while(!st.empty()){
+        int x = st.top(); st.pop();
+        for(int i = 0; i < List[x].size(); i++){
+            int y = List[x][i];
+            if(!tick[y]){
+                tick[y] = true;
+                st.push(x); st.push(y);
+                break;
+            }
+        }
+    }
+}
+
+void solve(){   
+    for(int i = 0; i < 1001; i++) List[i].clear();
+    
+    int vertex, edge; cin>>vertex>>edge;
+    
+    while(edge--){
+        int u, v; cin>>u>>v;
+        List[u].push_back(v);
+        List[v].push_back(u);
+    }
+
+    int Q; cin>>Q;
+    while(Q--){
+        memset(tick, false, sizeof(tick));
+        int x, y; cin>>x>>y;
+        DFS(x);
+        if(!tick[y]) cout<<"NO";
+        else cout<<"YES";
+        cout<<endl;
+    }
+}
+
+int main(){
+    int a; cin>>a;
+    while(a--){
+        solve();
+    }
+    return 0;
+}

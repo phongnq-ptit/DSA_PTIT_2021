@@ -1,0 +1,53 @@
+Cho hai xâu nhị phân biểu diễn hai số. 
+Nhiệm vụ của bạn là đưa ra tích của hai số. 
+Ví dụ với xâu S1=”1100” và S2=”1010” ta sẽ có kết quả là 120.
+
+Input:
+	Dòng đầu tiên đưa vào số lượng bộ test T.
+	Những dòng kế tiếp đưa vào các bộ test. 
+	Mỗi bộ test gồm 2 hai xâu nhị phân S1, S2 được viết trên một dòng.
+	T, S1, S2 thỏa mãn ràng buộc: 1≤T≤100;  1≤ length(S1), length(S2)≤30.
+Output:
+	Đưa ra tích của mỗi test theo từng dòng.
+
+Input
+
+2
+1100 01
+01 01
+
+
+Output
+
+12
+
+1
+
+ 
+
+#include<bits/stdc++.h>
+
+using namespace std;
+typedef long long ll;
+
+ll convert(string s){
+    ll ans = 0;
+    for(int i = 0, n = s.length() - 1; i < s.length(); i++, n--){
+        if(s[i] == '1')
+            ans += pow(2, n);
+    }
+    return ans;
+}
+
+void solve(){
+    string s1, s2; cin>>s1>>s2;
+    cout<<convert(s1) * convert(s2)<<endl;
+}
+
+int main(){
+    int a; cin>>a;
+    while(a--){
+        solve();
+    }
+    return 0;
+}

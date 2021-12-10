@@ -1,0 +1,71 @@
+Cho dãy ký tự S chỉ bao gồm các ký tự I hoặc D. 
+Ký tự I được hiểu là tăng (Increasing) 
+ký tự D được hiểu là giảm (Decreasing). 
+Sử dụng các số từ 1 đến 9, hãy đưa ra số nhỏ nhất được đoán nhận từ S. 
+Chú ý, các số không được phép lặp lại. Dưới đây là một số ví dụ mẫu:
+
+	A[] = “I”           : số tăng nhỏ nhất là 12.
+	A[] = “D”           : số giảm nhỏ nhất là 21
+	A[] =”DD”           : số giảm nhỏ nhất là 321
+	A[] = “DDIDDIID”    : số thỏa mãn 321654798
+Input:
+	Dòng đầu tiên đưa vào số lượng bộ test T.
+	Những dòng kế tiếp đưa vào T bộ test. Mỗi bộ test là một xâu S
+	T, S thỏa mãn ràng buộc: 1≤ T ≤100; 1≤ length(S) ≤8; .
+Output:
+	Đưa ra kết quả mỗi test theo từng dòng.
+
+
+Input:
+
+
+4
+
+I
+
+D
+
+DD
+DDIDDIID
+
+Output:
+
+12
+
+21
+
+321
+
+321654798
+
+
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+void solve(){
+    string s; cin>>s;
+    s += "I"; // mặc định kết thúc bằng chữ 'I'
+    stack<int> st;
+    int first = 2, last = 1;
+    for(int i = 0; i < s.length(); i++){
+        if(s[i] == 'D') st.push(first++); // thêm first vào stack và tăng first lên 1
+        else {
+            while(!st.empty()){
+                cout<<st.top(); st.pop();
+            }
+            cout<<last;
+            last = first++; // gán last = first và tăng biến first lên 1
+        }
+    }
+    cout<<endl;
+}
+
+int main(){
+    int a; cin>>a;
+    while(a--){
+        solve();
+    }
+    return 0;
+}

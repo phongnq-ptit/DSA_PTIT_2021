@@ -1,0 +1,59 @@
+Cho biểu thức đúng P chỉ bao gồm các phép toán +, -, các toán hạng cùng với các ký tự ‘(’, ‘)’. 
+Hãy bỏ tất cả các ký tự ‘(’, ‘)’ trong P để nhận được biểu thức tương đương. 
+Ví dụ với P = a – (b + c) ta có kết quả P = a – b – c .
+
+Input:
+	Dòng đầu tiên đưa vào số lượng bộ test T;
+	Những dòng tiếp theo mỗi dòng đưa vào một bộ test. 
+	Mỗi bộ test là một biểu thức P được viết trên một dòng.
+Output:
+	Đưa ra kết quả mỗi test theo từng dòng.
+Ràng buộc:
+	T, P thỏa mãn ràng buộc: 1≤T≤100; 1≤length(P)≤103.
+
+
+Input
+
+2
+a–(b+c)
+a-(b-c-(d+e))-f
+
+Output
+
+a-b-c
+a-b+c+d+e-f
+
+ 
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+void solve(){
+    string str; cin>>str;
+    stack<char> st;
+
+    for(int i = 0; i < str.length(); i++){
+        if(str[i] == '(' && (str[i - 1] == '+' || str[i - 1] == '-')) 
+            st.push(str[i - 1]);
+        if(!st.empty() && st.top() == '-'){
+            if(str[i] == '+') str[i] = '-';
+            else if(str[i] == '-') str[i] = '+';
+        }
+        if(!st.empty() && str[i] == ')') st.pop();
+    }
+
+    for(char val: str){
+        if(val == '(' || val == ')') continue;
+        cout<<val;
+    }
+    cout<<endl;
+}
+
+int main(){
+    int a; cin>>a;
+    while(a--){
+        solve();
+    }
+    return 0;
+}

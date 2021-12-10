@@ -1,0 +1,106 @@
+Cho một cây có N node, gốc tại 1. 
+Có Q truy vấn, mỗi truy vấn yêu cầu bạn tìm khoảng cách giữa hai node u và v.
+
+Input:
+	Dòng đầu tiên là số lượng bộ test T( T≤ 20).
+	Mỗi test bắt đầu bằng số nguyên N (1 ≤ N ≤ 1000). 
+	N-1 dòng tiếp theo, mỗi dòng gồm 2 số nguyên u, v cho biết node u nối với node v.
+	Dòng tiếp theo là số lượng truy vấn Q (1 ≤ Q ≤ 1000). Q dòng tiếp theo, mỗi dòng gồm 2 số nguyên u và v.
+Output: 
+	Với mỗi test, in ra Q dòng là đáp án với mỗi truy vấn.
+
+Input:
+
+1
+
+8
+
+1 2
+
+1 3
+
+2 4
+
+2 5
+
+3 6
+
+3 7
+
+6 8
+
+5
+
+4 5
+
+4 6
+
+3 4
+
+2 4
+
+8 5
+
+Output
+
+2
+
+4
+
+3
+
+1
+
+5
+
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+vector<vector<int>> List;
+vector<int> cnt;
+vector<bool> tick;
+bool check;
+int start, finish;
+
+void DFS(int u){
+	if(u == finish) check = true;
+	if(check) return;
+
+	tick[u] = true;
+	for(auto val: List[u]){
+		if(tick[val]) continue;
+		cnt[val] = cnt[u] + 1;
+		DFS(val);
+	}
+}
+
+void solve(){
+	int n, u, v, Q; cin>>n;
+	List.clear(); List.resize(n + 5);
+
+	for(int i = 0; i < n - 1; i++){
+		cin>>u>>v;
+		List[u].push_back(v);
+		List[v].push_back(u);
+	}
+ 	
+ 	cin >> Q;
+ 	while(Q--){
+ 		cin>>start>>finish;
+ 		cnt.assign(n + 5, 0);
+ 		tick.assign(n + 5, 0);
+ 		check = false;
+ 			
+ 		DFS(start);
+ 		cout<<cnt[finish]<<endl;
+	}
+}
+
+int main(){
+    ios_base::sync_with_stdio(0); cin.tie(0);
+	int a; cin>>a; 
+	while(a--) solve();	
+	return 0;	
+}

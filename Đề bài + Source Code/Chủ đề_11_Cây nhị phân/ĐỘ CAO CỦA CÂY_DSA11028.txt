@@ -1,0 +1,90 @@
+Cho một cây có N node, gốc tại  1. 
+Độ cao của một node u được tính bằng khoảng cách từ u tới node gốc. 
+Độ cao của node gốc bằng 0. 
+Nhiệm vụ của bạn là hãy tìm node xa node gốc nhất và in ra độ cao của node này.
+
+Input:
+	Dòng đầu tiên là số lượng bộ test T( T≤ 20).
+	Mỗi test bắt đầu bằng số nguyên N (1 ≤ N ≤ 100 000).
+	N-1 dòng tiếp theo, mỗi dòng gồm 2 số nguyên u, v cho biết node u nối với node v.
+Output: 
+	Với mỗi test, in ra một số nguyên là độ cao của cây.
+
+Input:
+
+2
+
+5
+
+1 2
+
+1 3
+
+2 4
+
+2 5
+
+4
+
+1 2
+
+2 3
+
+3 4
+
+Output
+
+2
+
+3
+
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+vector<int> List[100005], cnt;
+bool tick[100005];
+
+void reset(){
+    for(int i = 1; i <= 100000; i++) List[i].clear();
+    memset(tick, false, sizeof(tick));
+    cnt.clear();
+}
+
+void DFS(int u){
+    tick[u] = true;
+    for(int val: List[u]){
+        if(!tick[val]){
+            cnt[val] = cnt[u] + 1;
+            DFS(val);
+        }
+    }
+}
+
+void solve(){
+    reset();
+    int n, u, v; cin>>n;
+    cnt.resize(n + 5);
+    for(int i = 0; i < n - 1; i++){
+        cin>>u>>v;
+        List[u].push_back(v);
+        List[v].push_back(u);
+    }
+
+    cnt[1] = 1;
+    DFS(1);
+
+    int res = INT_MIN;
+    for(int i = 1; i <= n; i++)
+        res = max(res, cnt[i]);
+    
+    cout<<res - 1<<endl;
+}
+
+int main(){
+    ios_base::sync_with_stdio(0); cin.tie(0);
+    int a; cin>>a;
+    while(a--) solve();
+    return 0;
+}

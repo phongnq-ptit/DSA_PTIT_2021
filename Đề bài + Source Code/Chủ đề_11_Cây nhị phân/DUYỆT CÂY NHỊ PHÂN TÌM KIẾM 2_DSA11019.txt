@@ -1,0 +1,80 @@
+Cho một mảng A[] gồm N phần tử biểu diễn phép duyệt preorder của cây nhị phân tìm kiếm. 
+Nhiệm vụ của bạn là đưa ra phép duyệt postorder của cây nhị phân tìm kiếm.
+
+Input:
+	Dòng đầu tiên đưa vào số lượng test T.
+	Những dòng tiếp theo đưa vào các bộ test. Mỗi bộ test gồm 2 dòng: 
+		dòng đầu tiên đưa vào số N là số lượng node của cây tìm kiếm; 
+		dòng tiếp theo đưa vào phép duyệt preorder của cây tìm kiếm; 
+		các số được viết cách nhau một vài khoảng trống.
+	T, N, A[i] thỏa mãn ràng buộc: 1≤T≤100; 1≤N≤103; 1≤A[i]≤104;
+Output:
+	Đưa ra kết quả mỗi test theo từng dòng là phép duyệt postorder của cây tìm kiếm.
+    
+
+Input
+
+2
+5
+40 30 35 80 100
+8
+40 30 32 35 80 90 100 120
+
+Output
+
+35 30 100 80 40
+35 32 30 120 100 90 80 40
+
+ 
+#include<bits/stdc++.h>
+
+using namespace std;
+
+struct Node{
+    int data;
+    Node *left;
+    Node *right;
+    Node(int data){
+        this->data = data;
+        left = NULL;
+        right = NULL;
+    }
+};
+
+void insert_node(Node* &tree, int data){
+    if(tree == NULL) tree = new Node(data);
+    else{
+        if(data < tree->data) insert_node(tree->left, data);
+        else insert_node(tree->right, data);
+    } 
+}
+
+void postorder_LRN(Node* tree){
+    if(tree != NULL){
+        postorder_LRN(tree->left);
+        postorder_LRN(tree->right);
+        cout<<tree->data<<" ";
+    }
+}
+
+void solve(){
+    int n; cin>>n;
+
+    Node *tree = NULL;
+    
+    while(n--){
+        int val; cin>>val;
+        insert_node(tree, val);
+    }
+
+    postorder_LRN(tree);
+    cout<<endl;
+}
+
+int main(){
+    int a; cin>>a;
+    while(a--){
+        solve();
+    }
+    return 0;
+}

@@ -1,0 +1,103 @@
+Cho tập từ ghi trong trừ điển dic[] và một bảng hai chiều A[M][N] các ký tự. 
+Hãy tạo nên tất cả các từ có mặt trong từ điển dic[] bằng cách nối các ký tự kề nhau trong mảng A[][]. 
+Chú ý, phép nối các ký tự kề nhau trong mảng A[][] được thực hiện theo 8 hướng 
+nhưng không có phần tử A[i][j] nào được lặp lại. 
+Ví dụ với từ điển dic[] ={ “GEEKS”, “FOR”, “QIUZ”, “GO”} và mảng A[][] dưới đây sẽ cho ta kết quả: “GEEKS”, “QUIZ”
+
+G	I	Z
+
+U	E	K
+
+Q	S	E
+
+Input:
+	Dòng đầu tiên đưa vào số lượng bộ test T.
+	Những dòng kế tiếp đưa vào các bộ test. Mỗi bộ test gồm hai phần: 
+		phần thứ nhất đưa vào ba số K, M, N tương ứng với 
+			số từ của từ điển dic[], 
+			số hàng và số cột của ma trận ký tự A[M][N]; 
+		dòng tiếp theo đưa vào K từ của từ điển dic[]; 
+		dòng cuối cùng đưa vào các phần tử A[i][j].
+	T, K, M, N thỏa mãn ràng buộc: 1≤T ≤10; 1≤K≤100; 1≤ M, N ≤3.
+Output:
+	Đưa ra theo thứ tự tăng dần các từ có mặt trong từ điển dic[] được tạo ra từ ma trận A[][]. 
+	Đưa ra -1 nếu không thể tạo ra từ nào thuộc dic[] từ A[][].
+Input
+
+1
+4  3  3
+GEEKS FOR QUIZ GO
+G I Z
+
+U E K
+
+Q S E
+
+Output
+
+GEEKS QUIZ
+
+
+
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+int k, n, m;
+string dict[105], tmp;
+char word[5][5];
+bool tick[5][5];
+vector<string> res;
+
+bool check(string tmp){
+    for(int i = 0; i < k; i++)
+        if(dict[i] == tmp)
+            return true;
+    return false;
+}
+
+void back_track(int row, int col, string tmp){
+    tick[row][col] = true;
+    tmp.push_back(word[row][col]);
+    if(check(tmp)) res.push_back(tmp);
+
+    for(int i = row - 1; i <= row + 1 && row <= n; i++){
+        for(int j = col - 1; j <= col + 1 && col <= m; j++){
+            if(!tick[i][j] && i >= 1 && j >= 1)
+                back_track(i, j, tmp);
+        }
+    }
+
+    tmp.pop_back();
+    tick[row][col] = false;
+}
+
+void solve(){
+    res.clear();
+    memset(tick, false, sizeof(tick));
+    cin>>k>>n>>m;
+    for(int i = 0; i < k; i++) cin>>dict[i];
+    for(int i = 1; i <= n; i++)
+        for(int j = 1; j <= m; j++)
+            cin>>word[i][j];
+    
+    for(int i = 1; i <= n; i++)
+        for(int j = 1; j <= m; j++)
+            back_track(i, j, tmp);
+
+    if(res.empty()) cout<<-1;
+    else {
+        for(string val: res) cout<<val<<" ";
+    }
+    cout<<endl;
+}
+
+int main(){
+    int a; cin>>a;
+    while(a--){
+        solve();
+    }
+    return 0;
+}
+ 

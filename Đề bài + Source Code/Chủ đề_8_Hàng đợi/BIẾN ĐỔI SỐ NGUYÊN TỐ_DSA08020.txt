@@ -1,0 +1,93 @@
+Cho cặp số S và T là các số nguyên tố có 4 chữ số (Ví dụ S = 1033, T = 8197 là các số nguyên tố có 4 chữ số). 
+Hãy viết chương trình tìm cách dịch chuyển S thành T thỏa mãn đồng thời những điều kiện dưới đây:
+
+	a. Mỗi phép dịch chuyển chỉ được phép thay đổi một chữ số của số ở bước trước đó 
+	(ví dụ nếu S=1033 thì phép dịch chuyển S thành 1733 là hợp lệ);
+
+	b. Số nhận được cũng là một số nguyên tố có 4 chữ số 
+	(ví dụ nếu S=1033 thì phép dịch chuyển S thành 1833 là không hợp lệ, và S dịch chuyển thành 1733 là hợp lệ);
+
+	c. Số các bước dịch chuyển là ít nhất.
+
+Ví dụ số các phép dịch chuyển ít nhất để S = 1033 thành  T = 8179 là 6 bao gồm các phép dịch chuyển như sau:       
+
+8179 <- 8779 <- 3779 <- 3739 <- 3733 <- 1733 <- 1033.
+
+Input:
+	Dòng đầu tiên đưa vào số lượng test T (T≤100)
+	Những dòng kế tiếp mỗi dòng đưa vào một test. Mỗi test là một bộ đôi S, T.
+Output:
+	Đưa ra kết quả mỗi test theo từng dòng.
+
+Input
+
+2
+
+1033 8179
+
+1033 8779
+
+Output
+
+6
+
+5
+
+ 
+
+#include<bits/stdc++.h>
+
+using namespace std;
+set<string> prime;
+map<string, bool> tick;
+
+void is_prime(){
+    bool vis[10005]; memset(vis, false, sizeof(vis));
+    for(int i = 2; i < 10000; i++){
+        if(!vis[i])
+            for(int j = i*i; j <= 10000; j += i) 
+                vis[j] = true;
+    }
+    for(int i = 1000; i <= 9999; i++) 
+        if(!vis[i])
+            prime.insert(to_string(i));
+}
+
+int solve(){
+    tick.clear();
+    string st, en; cin>>st>>en;
+    queue<pair<string, int>> que; que.push({st, 0});
+    tick[st] = true;
+
+    while(!que.empty()){
+        auto tmp = que.front(); que.pop();
+        string value = tmp.first;
+        int step = tmp.second;
+
+        if(value == en) return step;
+
+        for(int i = 0; i < value.length(); i++){
+            char c = value[i];
+            for(char j = '0'; j <= '9'; j++){
+                value[i] = j;
+                if(value == en) return step + 1;
+                if(prime.find(value) != prime.end() && !tick[value] && stoi(value) > 1000){
+                    que.push({value, step + 1});
+                    tick[value] = true;
+                }
+            }
+            value[i] = c;
+        }
+    }
+    return -1;
+}
+
+int main(){
+    ios_base::sync_with_stdio(0); cin.tie(0);
+    is_prime();
+    int a; cin>>a;
+    while(a--){
+        cout<<solve()<<endl;
+    }
+    return 0;
+}

@@ -1,0 +1,56 @@
+Cho N sợi dây với độ dài khác nhau được lưu trong mảng A[]. 
+Nhiệm vụ của bạn là nối N sợi dây thành một sợi sao cho tổng chi phí nối dây là nhỏ nhất. 
+Biết chi phí nối sợi dây thứ i và sợi dây thứ j là tổng độ dài hai sợi dây A[i] và A[j].
+
+Dữ liệu vào
+	Dòng đầu ghi số bộ test T (T<10). Mỗi bộ test gồm 2 dòng. Dòng đầu tiên là số nguyên N (N ≤ 2*106).
+	Dòng tiếp theo gồm N số nguyên dương c[i] ( 1 ≤ A[i] ≤ 10^9).
+
+Kết quả 
+	In ra đáp án của bộ test trên từng dòng, theo modulo 10^9+7.
+
+
+Input:
+
+7
+
+2 4 1 2 10 2 3
+
+Output
+
+59
+
+ 
+
+#include<bits/stdc++.h>
+
+using namespace std;
+typedef long long ll;
+const ll MOD = 1e9 + 7;
+
+void solve(){
+    ll n; cin>>n;
+    vector<ll> arr(n);
+    for(ll &x: arr) cin>>x;
+    priority_queue<ll, vector<ll>, greater<ll>> pq (arr.begin(), arr.end());
+
+    ll res = 0;
+    while(pq.size() > 1){
+        ll first = pq.top(); pq.pop();
+        ll second = pq.top(); pq.pop();
+
+        ll tmp = (first + second) % MOD;
+        pq.push(tmp);
+        res += tmp; res %= MOD;
+    }
+
+    cout<<res<<endl;
+}
+
+int main(){
+    int a; cin>>a;
+    while(a--) {
+        solve();
+    }
+    return 0;
+}

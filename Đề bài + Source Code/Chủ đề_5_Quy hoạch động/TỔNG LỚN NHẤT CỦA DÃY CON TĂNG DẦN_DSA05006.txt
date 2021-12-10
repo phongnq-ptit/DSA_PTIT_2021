@@ -1,0 +1,70 @@
+Cho dãy số A[] gồm N số. 
+Nhiệm vụ của bạn là tìm tổng lớn nhất của dãy con được sắp theo thứ tự tăng dần của dãy A[]. 
+Ví dụ với dãy A[] = {1, 101, 2, 3, 100, 4, 5} ta có kết quả là 106 = 1 + 2 + 3 + 100. 
+Với dãy A[] = {10, 7, 5} ta có kết quả là 10. Với dãy A[] = {1, 2, 3, 5} ta có kết quả là 11.
+
+Input:
+	Dòng đầu tiên đưa vào số lượng bộ test T.
+	Những dòng kế tiếp đưa vào các bộ test. Mỗi bộ test gồm hai dòng: 
+		dòng đầu tiên đưa vào N là số phần tử của dãy A[]; 
+		dòng tiếp theo đưa vào N số A[i]; 
+		các số được viết cách nhau một vài khoảng trống.
+	T, N, A[i] thỏa mãn ràng buộc: 1≤T≤100;  1≤N ≤103; 0≤A[i] ≤103.
+Output:
+	Đưa ra kết quả mỗi test theo từng dòng.
+
+Input
+
+3
+
+7
+
+1 101 2 3 100 4 5
+
+3
+
+10 7 5
+
+4
+
+1 2 3 5
+
+Output
+
+106
+
+10
+
+11
+
+
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+void solve(){
+    int n; cin>>n;
+    vector<int> arr(n);
+    for(int i = 0; i < n; i++) cin>>arr[i];
+    vector<int> sum_sub_array(n); sum_sub_array[0] = arr[0];
+    int max_sum_subArr = arr[0];
+    for(int i = 1; i < n; i++){
+        sum_sub_array[i] = arr[i];
+        for(int j = 0; j < i; j++){
+            if(arr[j] < arr[i])
+                sum_sub_array[i] = max(sum_sub_array[i], sum_sub_array[j] + arr[i]);
+        }
+        max_sum_subArr = max(max_sum_subArr, sum_sub_array[i]);
+    }
+
+    cout<<max_sum_subArr<<endl;
+}
+
+int main(){
+    int a; cin>>a;
+    while(a--){
+        solve();
+    }
+    return 0;
+}

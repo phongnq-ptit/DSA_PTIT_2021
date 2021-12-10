@@ -1,0 +1,122 @@
+Cho cây nhị phân, nhiệm vụ của bạn là kiểm tra xem cây nhị phân có phải là một cây hoàn hảo hay không (perfect tree)? 
+Một cây nhị phân được gọi là cây hoàn hảo nếu tất cả các node trung gian của nó đều có hai node con 
+và tất cả các node lá đều có cùng một mức.
+
+Input:
+	Dòng đầu tiên đưa vào số lượng test T.
+	Những dòng tiếp theo đưa vào các bộ test. Mỗi bộ test gồm 2 dòng: 
+		dòng đầu tiên đưa vào số N là số lượng cạnh của cây; 
+		dòng tiếp theo đưa vào N bộ ba (u, v, x), 
+			trong đó u là node cha, 
+			v là node con, x= R nếu v là con phải, x=L nếu v là con trái; 
+		u, v, x được viết cách nhau một vài khoảng trống.
+	T, N, u, v, thỏa mãn ràng buộc: 1≤T≤100; 1≤N≤10^3; 1≤u, v≤10^4;
+Output:
+	Đưa ra kết quả mỗi test theo từng dòng.
+
+Input
+
+3
+6
+10 20 L 10 30 R 20 40 L 20 50 R 30 60 L 30 70 R
+2
+18 15 L 18 30 R
+5
+1 2 L 2 4 R 1 3 R 3 5 L 3 6 R
+
+Output
+
+Yes
+Yes
+No
+
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+struct Node{
+    int data;
+    Node *left, *right;
+    Node(int data){
+        this->data = data;
+        left = right = NULL;
+    }
+};
+
+Node *constructor_tree(int n){
+    int root = -1, dad, child; char pos;
+    map<int, Node*> mp;
+
+    while(n--){
+        cin>>dad>>child>>pos;
+
+        if(root == -1) root = dad;
+
+        if(mp.find(dad) == mp.end()){
+            Node *tmp = new Node(dad);
+            mp[dad] = tmp;
+        }
+
+        Node *node_dad = mp[dad];
+        Node *node_child = new Node(child);
+
+        if(pos == 'L') node_dad->left = node_child;
+        else node_dad->right = node_child;
+
+        mp[child] = node_child;
+    }
+
+    return mp[root];
+}
+
+vector<int> level;
+void level_order(Node *tree, int lv){
+    if(tree != NULL){
+        if(tree->left == NULL && tree->right == NULL)
+            level.push_back(lv);
+        level_order(tree->left, lv + 1);
+        level_order(tree->right, lv + 1);
+    }
+}
+
+bool check;
+void check_node(Node *tree){
+    if(tree != NULL){
+        if((tree->left == NULL && tree->right != NULL) || 
+        (tree->left != NULL && tree->right == NULL))
+            check = false;
+         check_node(tree->left);   
+         check_node(tree->right);   
+    }
+}
+
+void solve(){
+    level.clear();
+    check = true;
+    int n; cin>>n;
+
+    Node *tree = constructor_tree(n);
+
+    level_order(tree, 1);
+    check_node(tree);
+
+    bool tmp = true;
+    for(int val: level){
+        if(val != level[0]){
+            tmp = false;
+            break;
+        }
+    }
+
+    cout<<((check && tmp)? "Yes" : "No")<<endl;
+}
+
+int main(){
+    ios_base::sync_with_stdio(0); cin.tie(0);
+    int a; cin>>a;
+    while(a--) solve();
+    return 0;
+}
+
+ 

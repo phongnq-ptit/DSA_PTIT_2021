@@ -1,0 +1,68 @@
+Cho biểu thức P chỉ bao gồm các ký tự mở ngoặc ‘(’ hoặc đóng ngoặc ‘)’. 
+Biểu thức P có thể viết đúng hoặc không đúng. 
+Nhiệm vụ của bạn là tìm tổng độ dài lớn nhất của các biểu thức con viết đúng trong P 
+(các biểu thức đúng không nhất thiết phải liên tiếp nhau).
+
+Chú ý: Độ dài của biểu thức đúng ngắn nhất là 2.
+
+Input:
+	Dòng đầu tiên đưa vào số lượng bộ test T (không quá 100)
+	Những dòng tiếp theo mỗi dòng đưa vào một bộ test. 
+	Mỗi bộ test là một biểu thức P được viết trên một dòng (độ dài của P không quá 100).
+Output:
+	Đưa ra kết quả mỗi test theo từng dòng.
+
+Input
+
+4
+(()(
+()()((
+((()()())))
+()(())(
+
+Output
+
+2
+
+4
+
+10
+
+6
+
+ 
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+void solve(){
+    string s; cin>>s;
+    int len = s.length();
+    vector<bool> tick(len, false); // đánh dấu ví trí các dấu ngoặc đúng là true, ngược lại là false
+    stack<int> st;
+
+    for(int i = 0; i < len; i++){
+        if(s[i] == '(') st.push(i);
+        else if(!st.empty()){
+            tick[i] = true;
+            tick[st.top()] = true;
+            st.pop();
+        }
+    }
+
+    int res = 0;
+    for(int i = 0; i < len; i++){
+        if(tick[i]) res++;
+    }
+
+    cout<<res<<endl;
+}
+
+int main(){
+    int a; cin>>a;
+    while(a--){
+        solve();
+    }
+    return 0;
+}

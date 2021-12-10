@@ -1,0 +1,57 @@
+Cho hai đa thức P và Q được biểu diễn như một mảng bao gồm các hệ số của đa thức. 
+Ví dụ với P(x) = 5 + 0x1 +10x2 + 6x3 được biểu diễn như mảng P[] ={5, 0, 10, 6}. 
+Hãy đưa ra đa thức R = P×Q theo các hệ số của R với cách biểu diễn như trên.
+
+Input:
+	Dòng đầu tiên đưa vào số lượng bộ test T.
+	Những dòng kế tiếp đưa vào các bộ test. Mỗi bộ test gồm 3 dòng: 
+		dòng thứ nhất đưa vào hai số M, N tương ứng với lũy thừa lớn nhất của đa thức P và Q; 
+		dòng tiếp theo đưa vào M số là hệ số của đa thức P; 
+		dòng cuối cùng đưa vào M số là hệ số của đa thức Q.
+	T, M, N, P[i], Q[i] thỏa mãn ràng buộc: 1≤T≤100;  1≤M, N≤100; 1≤P[i], Q[i]≤100.
+Output:
+	Đưa ra kết quả mỗi test theo từng dòng.
+
+Input
+
+2
+4 3
+1 0 3 2
+2 0 4
+5 4
+1 9 3 4 7
+4 0 2 5
+
+Output
+
+2 0 10 4 12 8
+4 36 14 39 79 23 34 35
+
+ 
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+void solve(){
+    int n, m; cin>>n>>m;
+    vector<int> P(n), Q(m), res(n + m - 1, 0);
+    for(int &val: P) cin>>val;
+    for(int &val: Q) cin>>val;
+
+    for(int i = 0; i < n; i++)
+        for(int j = 0; j < m; j++)
+            res[i + j] += P[i]*Q[j];
+    
+    for(int val: res) cout<<val<<" ";
+    cout<<endl;
+}
+
+int main(){
+    ios_base::sync_with_stdio(0); cin.tie(0);
+    int a; cin>>a;
+    while(a--){
+        solve();
+    }
+    return 0;
+}

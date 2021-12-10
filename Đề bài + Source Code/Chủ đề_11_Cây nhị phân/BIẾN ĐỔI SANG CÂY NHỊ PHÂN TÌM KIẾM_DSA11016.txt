@@ -1,0 +1,116 @@
+Cho cây nhị phân, nhiệm vụ của bạn là dịch chuyển cây nhị phân thành cây nhị phân tìm kiếm. 
+Phép dịch chuyển phải bảo toàn được cấu trúc cây nhị phân ban đầu. 
+Ví dụ dưới đây sẽ minh họa phép dịch chuyển:
+
+			10				8
+		      /    \                          /   \
+		     2      7          =>            4     10
+		   /   \                           /   \
+		  8     4                         2     7
+
+Input:
+	Dòng đầu tiên đưa vào số lượng test T.
+	Những dòng tiếp theo đưa vào các bộ test. Mỗi bộ test gồm 3 dòng: 
+		dòng đầu tiên đưa vào số N là số lượng cạnh của cây; 
+		dòng tiếp theo đưa vào N bộ ba (u, v, x), 
+			trong đó u là node cha, v là node con, 
+			x= R nếu v là con phải, x=L nếu v là con trái; 
+		u, v, x được viết cách nhau một vài khoảng trống.
+	T, N, u, v, thỏa mãn ràng buộc: 1≤T≤100; 1≤N≤103; 1≤u, v≤104;
+Output:
+	Đưa ra kết quả mỗi test theo từng dòng là phép duyệt Inorder của cây tìm kiếm.
+  
+
+Input
+
+2
+2
+1 2 R 1 3 L
+4
+10 20 L 10 30 R 20 40 L 20 60 R
+
+Output
+
+1 2 3
+10 20 30 40 60
+
+ 
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+struct Node{
+    int data;
+    Node *left;
+    Node *right;
+    Node(int data){
+        this->data = data;
+        left = NULL;
+        right = NULL;
+    }
+};
+
+void connect_node(Node* &tree, int child, char position){
+    if(position == 'L') tree->left = new Node(child);
+    if(position == 'R') tree->right = new Node(child);
+}
+
+void create_node(Node* &tree, int dad, int child, char position){
+    if(tree == NULL) return;
+    if(tree->data == dad) connect_node(tree, child, position);
+    create_node(tree->left, dad, child, position);
+    create_node(tree->right, dad, child, position);
+}
+
+void create_binary_tree(Node* &tree, int data){
+    if(tree == NULL) tree = new Node(data);
+    else {
+        if(data < tree->data) create_binary_tree(tree->left, data);
+        else create_binary_tree(tree->right, data);
+    }
+}
+
+void postorder_LRN(Node* tree, Node* &binary_tree){
+    if(tree != NULL){
+        postorder_LRN(tree->left, binary_tree);
+        postorder_LRN(tree->right, binary_tree);
+        create_binary_tree(binary_tree, tree->data);
+    }
+}
+
+void inorder_LNR(Node* tree){
+    if(tree != NULL){
+        inorder_LNR(tree->left);
+        cout<<tree->data<<" ";
+        inorder_LNR(tree->right);
+    }
+}
+
+void solve(){
+    int n; cin>>n;
+
+    Node *tree = NULL;
+
+    while(n--){
+        int dad, child; char position;
+        cin>>dad>>child>>position;
+        if(tree == NULL){
+            tree = new Node(dad);
+            connect_node(tree, child, position);
+        } create_node(tree, dad, child, position);
+    }
+
+    Node *binary_tree = NULL;
+    postorder_LRN(tree, binary_tree);
+    inorder_LNR(binary_tree);
+    cout<<endl;
+}
+
+int main(){
+    int a; cin>>a;
+    while(a--){
+        solve();
+    }
+    return 0;
+}

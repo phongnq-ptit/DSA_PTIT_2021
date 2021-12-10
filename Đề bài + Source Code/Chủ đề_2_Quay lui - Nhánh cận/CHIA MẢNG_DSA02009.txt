@@ -1,0 +1,92 @@
+Cho mảng các số nguyên A[] gồm N phần tử. 
+Hãy chia mảng số nguyên A[] thành K tập con khác rỗng sao cho tổng các phần tử của mỗi tập con đều bằng nhau. 
+Mỗi phần tử thuộc tập con xuất hiện duy nhất một lần trong tất cả các tập con. 
+Ví dụ với A[] = {2, 1, 4, 5, 6}, K =3 ta có kết quả {2, 4}, {1, 5}, {6}.
+
+Input:
+	Dòng đầu tiên đưa vào số lượng bộ test T.
+	Những dòng kế tiếp đưa vào các bộ test. Mỗi bộ test gồm hai phần: 
+		phần thứ nhất là hai số N và K; 
+		dòng tiếp theo đưa vào N số của mmảng A[]; 
+		các số được viết cách nhau một vài khoảng trống.
+	T, N, K, A[i] thỏa mãn ràng buộc: 1≤T ≤100; 1≤N, K≤20, 0≤A[i]≤100.
+Output:
+	Đưa ra 1 nếu có thể chia tập con thành K tập thỏa mãn yêu cầu bài toán, ngược lại đưa ra 0.
+
+
+Input
+
+2
+5 3
+2 1 4 5 6
+5 3
+2 1 5 5 6
+
+Output
+
+1
+0
+
+
+
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+int n, k, avg;
+int arr[50];
+bool tick[50];
+bool is_ok = false;
+
+void back_track(int sum, int count){
+    if(is_ok == true) return;
+    if(count == k) {
+        is_ok = true;
+        return;
+    }
+    for(int i = 1; i <= n; i++){
+        if(!tick[i]){
+            tick[i] = true;
+            sum += arr[i];
+            if(sum == avg){
+                back_track(0, count + 1);
+                return;
+            }
+            if(sum > avg) return;
+            else back_track(sum, count);
+            sum -= arr[i];
+        }
+        tick[i] = false;
+    }
+}
+
+void solve(){
+    is_ok = false;
+    memset(tick, false, sizeof(tick));
+    cin>>n>>k;
+    int sum_arr = 0;
+    for(int i = 1; i <= n; i++) {
+        cin>>arr[i];
+        sum_arr += arr[i];
+    }
+
+    if(sum_arr%k != 0){
+        cout<<0<<endl;
+        return;
+    } else avg = sum_arr/k;
+
+    back_track(0, 0);
+
+    if(is_ok) cout<<1<<endl;
+    else cout<<0<<endl;
+}
+
+int main(){
+    int a; cin>>a;
+    while(a--){
+        solve();
+    }
+    return 0;
+}
+ 

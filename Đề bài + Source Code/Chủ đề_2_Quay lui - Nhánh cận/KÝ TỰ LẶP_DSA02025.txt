@@ -1,0 +1,125 @@
+Cho một dãy các xâu ký tự chỉ bao gồm các chữ cái in hoa từ A đến Z, 
+trong đó các ký tự trong mỗi xâu đều đã được sắp xếp theo thứ tự từ điển 
+và mỗi chữ cái chỉ xuất hiện nhiều nhất một lần (tức là độ dài xâu tối đa là 26). 
+Nếu một ký tự xuất hiện trong hai xâu liên tiếp thì được coi là một lần lặp. 
+Hãy tìm cách sắp xếp lại thứ tự các xâu sao cho số lần lặp là nhỏ nhất có thể. 
+Ví dụ dưới đây là cùng một dãy xâu nhưng với cách sắp xếp lại thì số lần lặp chỉ còn 2.
+
+ABC
+ABEF
+DEF
+ABCDE
+FGH
+
+=> Số lần lặp là 6
+
+ABEF
+DEF
+ABC
+FGH
+ABCDE
+
+=> Số lần lặp là 2.
+
+Input
+
+	Dòng đầu tiên ghi số N (2 ≤ N ≤ 10) là số xâu ký tự. N dòng tiếp theo, mỗi dòng ghi một xâu. 
+
+Output
+
+	In ra trên một dòng số lần lặp nhỏ nhất có thể. 
+
+
+Input - 1                                                                   	
+5                                                     
+ABC
+ABEF
+DEF
+ABCDE
+FGH
+
+Output - 1
+
+2
+
+Input - 2
+6
+BDE
+FGH
+DEF
+ABC
+BDE
+ABEF
+
+Output - 2
+
+3
+
+Input - 3
+4
+XYZ
+XYZ
+ABYZ
+Z
+
+Output - 3
+
+4
+
+
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+int n, res = INT_MAX;
+vector<string> arr(15);
+bool tick[15] = {false};
+int tmp[15] = {};
+
+int repeat_char(int index){
+    string s1 = arr[tmp[index - 1]];
+    string s2 = arr[tmp[index]];
+    vector<int> have(26, 0);
+    int cnt = 0;
+    for(auto i: s1) have[i - 'A'] = 1;
+    for(auto i: s2)
+        if(have[i - 'A'])
+            cnt++;
+    return cnt;
+}
+
+void back_track(int index, int step){
+    if(step > res) return;
+    if(index == n + 1){
+        res = min(res, step);
+        return;
+    }
+    for(int i = 1; i <= n; i++){
+        if(tick[i]) continue;
+        tick[i] = true;
+        tmp[index] = i;
+        int value = repeat_char(index);
+        back_track(index + 1, step + value);
+        tick[i] = false;
+    }
+}
+
+void solve(){
+    cin>>n;
+    for(int i = 1; i <= n; i++) cin>>arr[i];
+
+    back_track(1, 0);
+
+    cout<<res<<endl;
+}
+
+int main(){
+    solve();
+    return 0;
+}
+
+
+
+
+ 

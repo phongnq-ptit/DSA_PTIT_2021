@@ -1,0 +1,52 @@
+Cho số tự nhiên n. Hãy in ra tất cả các số nhị phân từ 1 đến n.
+
+Input:
+	Dòng đầu tiên ghi lại số lượng test T (T≤100).
+	Mỗi test là một số tự nhiên n được ghi trên một dòng (n≤10000).
+Output:
+	Đưa ra kết quả mỗi test trên một dòng.
+
+Input
+
+2
+
+2
+
+5
+
+Output
+
+1 10
+
+1 10 11 100 101
+
+ 
+
+#include<bits/stdc++.h>
+
+using namespace std;
+typedef long long ll;
+
+void solve(){
+    ll n; cin>>n;
+    queue<ll> que; que.push(1);
+
+    while(n--){
+        for(ll i = 0; i <= 1; i++){
+            ll tmp = que.front()*10 + i;
+            que.push(tmp);
+        }
+        cout<<que.front()<<" ";
+        que.pop();
+    }
+
+    cout<<endl;
+}
+
+int main(){
+    int a; cin>>a;
+    while(a--){
+        solve();
+    }
+    return 0;
+}

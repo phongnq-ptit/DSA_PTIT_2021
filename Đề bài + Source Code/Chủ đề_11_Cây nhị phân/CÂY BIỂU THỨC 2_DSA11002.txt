@@ -1,0 +1,117 @@
+Cho một cây biểu thức là một cây nhị phân đầy đủ 
+bao gồm các phép toán +, -, *. / và một số toán hạng có giá trị nguyên. 
+Nhiệm vụ của bạn là hãy tính toán giá trị biểu thức được biểu diễn trên cây nhị phân đầy đủ. 
+Ví dụ với cây dưới đây là biểu diễn của biểu thức P = ( (5*4) + (100-20)) sẽ cho ta giá trị là 100.
+
+Input:
+	Dòng đầu tiên đưa vào số lượng bộ test T.
+	Những dòng tiếp theo đưa vào các bộ test. Mỗi bộ test là gồm hai dòng: 
+		dòng thứ nhất đưa vào N là số lượng node của cây; 
+		dòng thứ hai đưa vào nội dung các node của cây; 
+		các node được viết cách nhau một vài khoảng trống. 
+		Các số có giá trị nguyên không vượt quá 1000.
+	T, N, P thỏa mãn ràng buộc : 1≤T≤100; 1≤N, lenght(P)≤100.
+Output:
+	Đưa ra giá trị của cây biểu thức.
+
+Input
+
+2
+7
++ * - 5 4 100 20
+3
+- 4 7
+
+Output 
+
+100
+-3
+
+
+
+#include<bits/stdc++.h>
+
+using namespace std;
+typedef long long ll;
+
+ll to_number(string s){
+    int i, num = 0;
+    if(s[0] == '-') i = 1;
+    else i = 0;
+    for(;i < s.length(); i++) num = num*10 + (s[i] - '0');
+
+    if(s[0] == '-') return -num;
+    else return num;
+}
+
+struct Node{
+    string data;
+    Node *left;
+    Node *right;
+    Node(string data){
+        this->data = data;
+        left = NULL;
+        right = NULL;
+    }
+};
+
+Node* construct_tree(vector<string> s){
+    queue<Node*> que;
+    Node *tree, *temp, *tmp1, *tmp2;
+
+    int index = 0;
+    tree = new Node(s[index++]);
+    que.push(tree);
+    while(!que.empty()){
+        temp = que.front(); que.pop();
+        if(temp->data == "+" || temp->data == "-" || temp->data == "*" || temp->data == "/"){
+            tmp1 = new Node(s[index++]);
+            tmp2 = new Node(s[index++]);
+
+            temp->left = tmp1;
+            temp->right = tmp2;
+
+            que.push(tmp1);
+            que.push(tmp2);
+        }
+    }
+
+    return tree;
+}
+
+ll value_expressions(Node* tree){
+    if(tree == NULL) return 0;
+
+    if(tree->left == NULL && tree->right == NULL)
+        return to_number(tree->data);
+    
+    ll left_value = value_expressions(tree->left);
+    ll right_value = value_expressions(tree->right);
+
+    if(tree->data == "+") return left_value + right_value;
+    if(tree->data == "-") return left_value - right_value;
+    if(tree->data == "*") return left_value * right_value;
+    return left_value / right_value;
+}
+
+void solve(){
+    ll n; cin>>n; cin.ignore();
+    string s, token; getline(cin, s);
+    stringstream ss(s);
+    vector<string> tmp;
+    while(ss>>token) tmp.push_back(token);
+
+    Node *tree = construct_tree(tmp);
+
+    cout<<value_expressions(tree)<<endl;
+}
+
+int main(){
+    ll a; cin>>a;
+    while(a--){
+        solve();
+    }
+    return 0;
+}
+
+

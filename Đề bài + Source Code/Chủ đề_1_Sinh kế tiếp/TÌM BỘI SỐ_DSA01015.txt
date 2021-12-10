@@ -1,0 +1,61 @@
+Cho số nguyên N. Nhiệm vụ của bạn cần tìm số nguyên X nhỏ nhất là bội của N, và X chỉ chứa hai chữ số 0 và 9.
+
+Input: 
+	Dòng đầu tiên là số lượng bộ test T (T ≤ 10000). Mỗi bộ test chứa số nguyên N trên một dòng (1 ≤ N ≤ 500).
+
+Output:  
+	Với mỗi test in ra đáp án tìm được trên một dòng.
+
+
+Input
+
+3
+
+2
+
+5
+
+11 
+
+Output
+
+90
+
+90
+
+99
+
+ 
+
+#include<bits/stdc++.h>
+
+using namespace std;
+typedef long long ll;
+
+void solve(){
+	ll n; cin>>n;
+	ll tmp[2] = {0, 9};
+	queue<ll> que; que.push(9);
+
+	while(true){
+		for(int i = 0; i < 2; i++){
+			ll num = que.front() * 10 + tmp[i];
+			que.push(num);
+		}
+
+		if(que.front()%n == 0) {
+			cout<<que.front()<<endl; 
+			return;
+		} else que.pop();
+	}
+}
+
+int main(){
+	int a; cin>>a;
+	while(a--){
+		solve();
+	}
+	return 0;
+}
+
+

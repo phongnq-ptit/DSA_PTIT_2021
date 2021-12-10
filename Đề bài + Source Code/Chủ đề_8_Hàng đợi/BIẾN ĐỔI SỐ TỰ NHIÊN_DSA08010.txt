@@ -1,0 +1,89 @@
+Cho số tự nhiên N (N<10^9) và hai phép biến đổi (a), (b) dưới đây.
+
+	Thao tác (a): Trừ N đi 1 (N=N-1). Ví dụ N=17, thao tác (a) biến đổi N = N-1 =16.
+
+	Thao tác (b): N = max(u,v) nếu u*v =N (u>1, v>1). 
+
+Ví dụ N=16, thao tác (b) có thể biến đổi N = max(2, 8)=8 hoặc N=max(4, 4)=4.
+Chỉ được phép sử dụng hai thao tác (a) hoặc (b), hãy biến đổi N thành 1 sao số các thao tác (a), (b) được thực hiện ít nhất. 
+Ví dụ với N=17, số các phép (a), (b) nhỏ nhất biến đổi N thành 1 là 4 bước như sau:
+
+        Thao tác (a): N = N-1 = 17-1 = 16
+
+        Thao tác (b): 16 = max(4,4) = 4
+
+        Thao tác (b): 4 = max(2,2) = 2
+
+        Thao tác (a): 2 = 2-1 = 1
+
+Input:
+	Dòng đầu tiên ghi lại số tự nhiên T là số lượng Test;
+	T dòng kế tiếp mỗi dòng ghi lại một bộ Test. Mỗi test là một số N.
+Output:
+	Đưa ra kết quả mỗi test theo từng dòng.
+
+ 
+
+Input
+
+3
+
+17
+
+50
+
+100
+
+Output
+
+4
+
+5
+
+5
+
+ 
+#include<bits/stdc++.h>
+
+using namespace std;
+
+void solve(){
+    int n; cin>>n;
+
+    queue<pair<int, int>> que; que.push({n, 0});
+    map<int, bool> tick; tick[n] = true;
+
+    while(!que.empty()){
+        pair<int, int> tmp = que.front(); que.pop();
+
+        int value = tmp.first;
+        int step = tmp.second;
+
+        if(value == 1){
+            cout<<step<<endl;
+            return;
+        }
+
+        // thao tac (a)
+        if(!tick[value - 1]){
+            que.push({value - 1, step + 1});
+            tick[value - 1] = true;
+        }
+
+        // thao tac (b)
+        for(int i = 2; i <= sqrt(value); i++){
+            if(value%i == 0 && !tick[value/i]){
+                que.push({value/i, step + 1});
+                tick[value/i] = true;
+            }
+        }
+    }
+}
+
+int main(){
+    int a; cin>>a;
+    while(a--){
+        solve();
+    }
+    return 0;
+}

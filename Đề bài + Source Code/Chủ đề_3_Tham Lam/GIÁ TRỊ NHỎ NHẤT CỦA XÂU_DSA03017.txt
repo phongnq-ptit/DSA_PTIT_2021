@@ -1,0 +1,68 @@
+Cho xâu ký tự S. 
+Ta gọi giá trị của xâu S là tổng bình phương số lần xuất hiện mỗi ký tự trong S. 
+Hãy tìm giá trị nhỏ nhất của xâu S sau khi thực hiện K lần loại bỏ ký tự.
+
+Input:
+	Dòng đầu tiên đưa vào số lượng bộ test T.
+	Những dòng kế tiếp đưa vào các bộ test. Mỗi bộ test gồm hai phần: 
+		phần thứ nhất là số K; 
+		phần thứ hai là một xâu ký tự S được viết trên một dòng.
+	T, S, K thỏa mãn ràng buộc: 1≤T≤100;  1≤length(S)≤10000; 1≤K≤1000.
+Output:
+	Đưa ra kết quả mỗi test theo từng dòng.
+
+
+Input
+
+2
+2
+
+ABCCBC
+2
+
+AAAB
+
+Output
+
+6
+2
+
+
+
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+void solve(){
+    int n; cin>>n; scanf("\n");
+    string s; cin>>s;
+    map<char, int> tick;
+    priority_queue<int> handle;
+    
+    for(auto i: s) tick[i]++;
+    for(auto i: tick) handle.push(i.second);
+
+    while(n != 0){
+        int tmp = handle.top() - 1;
+        handle.pop();
+        handle.push(tmp);
+        n--;
+    }
+
+    int res = 0;
+    while(!handle.empty()){
+        res += pow(handle.top(),2);
+        handle.pop();
+    }
+    cout<<res<<endl;
+}
+
+int main(){
+    int a; cin>>a;
+    while(a--){
+        solve();
+    }
+    return 0;
+}
+ 

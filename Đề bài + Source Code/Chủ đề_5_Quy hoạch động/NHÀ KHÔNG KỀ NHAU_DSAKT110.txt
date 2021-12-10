@@ -1,0 +1,58 @@
+Có N ngôi nhà trên một dãy phố, mỗi ngôi nhà chứa đựng một số lượng tài sản khác nhau. 
+Một tên trộm muốn ăp cắp được nhiều nhất tài sản của dãy phố nhưng không muốn lấy tài sản của hai nhà kề nhau. 
+Hãy cho biết, bằng cách đó tên trộm có thể đánh cắp được nhiều nhất bao nhiêu tài sản.
+
+Input:
+	Dòng đầu tiên đưa vào số lượng bộ test T.
+	Những dòng kế tiếp đưa vào các bộ test. Mỗi bộ test gồm hai dòng: 
+		dòng thứ nhất là một số N là số lượng ngôi nhà; 
+		dòng tiếp theo đưa vào N số là tài sản tương ứng trong mỗi ngôi nhà; 
+		các số được viết cách nhau một vài khoảng trống.
+	T, N, A[i] thỏa mãn ràng buộc: 1≤T≤100;  1≤N ≤10^6; 1≤A[i] ≤10^7.
+Output:
+	Đưa ra kết quả mỗi test theo từng dòng.
+
+
+Input
+
+2
+6
+5 5 10 100 10 5
+4
+3 2 7 10
+
+Output
+
+110
+13
+
+
+
+#include<bits/stdc++.h>
+
+using namespace std;
+typedef long long ll;
+
+void solve(){
+    ll n; cin>>n;
+    vector<ll> arr(n);
+    for(ll &val: arr) cin>>val;
+
+    vector<ll> dp(n, 0);
+    dp[0] = arr[0]; dp[1] = max(arr[0], arr[1]);
+    for(ll i = 2; i < n; i++)
+        dp[i] = max(dp[i - 2] + arr[i], dp[i - 1]);
+
+    cout<<dp[n - 1]<<endl;
+}
+
+int main(){
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    int a; cin>>a;
+    while(a--){
+        solve();
+    }
+    return 0;
+}
+ 

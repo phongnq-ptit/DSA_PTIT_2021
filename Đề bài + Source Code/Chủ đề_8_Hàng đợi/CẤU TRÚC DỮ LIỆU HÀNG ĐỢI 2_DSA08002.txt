@@ -1,0 +1,75 @@
+Yêu cầu bạn xây dựng một queue với các truy vấn sau đây:
+
+	“PUSH x”: Thêm phần tử x vào cuối của queue (0 ≤ x ≤ 1000).
+	“PRINTFRONT”: In ra phần tử đầu tiên của queue. Nếu queue rỗng, in ra “NONE”.
+	“POP”: Xóa phần tử ở đầu của queue. Nếu queue rỗng, không làm gì cả.
+
+Dữ liệu vào:
+	Dòng đầu tiên là số lượng truy vấn Q (Q ≤ 100000).
+	Mỗi truy vấn có dạng như trên.
+
+Kết quả:
+	Với mỗi truy vấn “PRINT”, hãy in ra phần tử đầu tiên của queue. Nếu queue rỗng, in ra “NONE”.
+
+
+Input
+
+
+9
+
+PUSH 1
+
+PUSH 2
+
+POP
+
+PRINTFRONT
+
+PUSH 3
+
+PRINTFRONT
+
+POP
+
+POP
+
+PRINTFRONT
+
+Output
+
+2
+
+2
+
+NONE
+
+
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+void solve(){
+    int n; cin>>n;
+	queue<int> que;
+	while (n--){
+		string str; cin >> str;
+		if (str == "PUSH"){
+			int x; cin>>x;
+			que.push(x);
+		}
+		if (str == "POP"){
+			if (!que.empty())
+				que.pop();
+		}
+		if (str == "PRINTFRONT")
+			if (!que.empty())
+				cout <<que.front()<< endl;
+			else cout <<"NONE"<< endl;
+	}
+}
+
+int main(){
+	solve();
+    return 0;
+}

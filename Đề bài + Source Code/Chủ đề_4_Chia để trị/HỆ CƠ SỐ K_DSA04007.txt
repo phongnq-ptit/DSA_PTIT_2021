@@ -1,0 +1,49 @@
+Cho hai số A, B ở hệ cơ số K. Hãy tính tổng hai số đó ở hệ cơ số K.
+
+Input: Dòng đầu ghi số bộ test T (T<10). Mỗi bộ test ghi 3 số K,A,B.
+
+            (2≤K≤10; A và B nếu biểu diễn trong hệ cơ số 10 đều nhỏ hơn 10^9)
+
+Output: In ra tổng của A và B trong hệ cơ số K
+
+
+Input
+
+1
+
+2 1 10
+
+Output
+
+11
+
+ 
+#include<bits/stdc++.h>
+
+using namespace std;
+
+void solve(){
+    int k; string a, b, res = ""; cin>>k>>a>>b;
+    int tmp = 0, sum;
+
+    while(a.length() < b.length()) a = '0' + a;
+    while(a.length() > b.length()) b = '0' + b;
+
+    for(int i = a.length() - 1; i >= 0; i--){
+        sum = (a[i] - '0') + (b[i] - '0') + tmp;
+        res = char(sum%k + '0') + res;
+        tmp = sum/k;
+    }
+
+    if(tmp > 0) res = char(tmp%k + '0') + res;
+
+    cout<<res<<endl;
+}
+
+int main(){
+    ios_base::sync_with_stdio(0); cin.tie(0);
+    int a; cin>>a;
+    while(a--) solve();
+    return 0;
+}
+ 

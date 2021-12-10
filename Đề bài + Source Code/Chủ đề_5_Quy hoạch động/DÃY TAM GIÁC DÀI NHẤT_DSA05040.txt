@@ -1,0 +1,77 @@
+Cho dãy số A[] gồm có N phần tử.  
+Một dãy con liên tiếp được gọi là dãy tam giác nếu như dãy đó tăng dần rồi lại giảm dần, 
+hay tồn tại i, j, k sao cho A[i] ≤ A[i+1] ≤ … ≤ A[k] ≥ A[k+1] ≥ … ≥ A[j].
+Nhiệm vụ của bạn là hãy tìm dãy con liên tiếp là dãy tam giác có độ dài lớn nhất.
+Lưu ý: 
+	Dãy đơn điệu không giảm hoặc không tăng cũng là dãy tam giác. 
+	Ví dụ A[] = {10, 20, 30, 40} là một dãy tam giác.
+
+Input:
+	Dòng đầu tiên là số lượng bộ test T (T ≤ 10).
+	Mỗi test gồm số nguyên N(1≤ N ≤ 100 000).
+	Dòng tiếp theo gồm N số nguyên A[i] (0 ≤ A[i] ≤ 10^6).
+
+Output: 
+	Với mỗi test, in ra trên một dòng là độ dài của dãy con tìm được.
+
+Input
+
+2
+
+6
+
+12 4 78 90 45 23
+
+8
+
+20 4 1 2 3 4 2 10
+
+Output
+
+5
+
+5
+
+Giải thích test 1:
+
+Dãy tìm được là 4, 78, 90, 45, 23
+
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+vector<int> process(vector<int> arr, bool check){
+    if(check) reverse(arr.begin(), arr.end());
+
+    vector<int> dp(arr.size(), 1);
+    for(int i = 1; i < arr.size(); i++)
+        if(arr[i - 1] < arr[i]) 
+            dp[i] = dp[i - 1] + 1;
+
+    return dp;
+}
+
+void solve(){
+    int n; cin>>n;
+    vector<int> arr(n);
+    for(int &val: arr) cin>>val;
+
+    vector<int> left = process(arr, false);
+    vector<int> right = process(arr, true); reverse(right.begin(), right.end());
+
+    int res = INT_MIN;
+    for(int i = 0; i < n; i++)
+        res = max(res, left[i] + right[i] - 1);
+    
+    cout<<res<<endl;
+}
+
+int main(){
+    ios_base::sync_with_stdio(0); cin.tie(0);
+    int a; cin>>a;
+    while(a--) solve();
+    return 0;
+}
+
+ 

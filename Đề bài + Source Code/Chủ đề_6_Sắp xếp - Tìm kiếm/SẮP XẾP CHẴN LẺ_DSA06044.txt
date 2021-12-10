@@ -1,0 +1,52 @@
+Cho dãy số a[] có n phần tử, đánh số từ 1 đến n. 
+Hãy sắp xếp các phần tử ở vị trí lẻ theo thứ tự tăng dần, các phần tử ở vị trí chẵn theo thứ tự giảm dần.
+
+Input
+	Dòng đầu tiên ghi số n, không quá 105
+	Dòng thứ 2 ghi n số của dãy a[] (a ≤ a[i] ≤ 109)
+
+Output
+	Ghi ra dãy số kết quả trên một dòng
+
+
+
+Input
+
+4
+
+1 2 3 4
+
+Output
+
+1 4 3 2
+
+ 
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+void solve(){
+    int n; cin>>n;
+    vector<int> arr(n + 1);
+    vector<int> even; // chẵn
+    vector<int> odd; // lẻ
+    for(int i = 1; i <= n; i++) {
+        cin>>arr[i];
+        if(i % 2 == 0) even.push_back(arr[i]);
+        else odd.push_back(arr[i]);
+    }
+    
+    sort(odd.begin(), odd.end());
+    sort(even.begin(), even.end(), greater<int>());
+    for(int i = 0, j = 0, k = 1; k <= n; k++){
+        if(k % 2 == 0) cout<<even[i++]<<" ";
+        else cout<<odd[j++]<<" ";
+    }
+    cout<<endl;
+}
+
+int main(){
+    solve();
+    return 0;
+}

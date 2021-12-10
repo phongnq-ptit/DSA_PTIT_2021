@@ -1,0 +1,109 @@
+Trường học X có N sinh viên, trong đó có M cặp là bạn bè của nhau. 
+Bạn của bạn cũng là bạn, tức là nếu A là bạn của B, B là bạn của C thì A và C cũng là bạn bè của nhau.
+Các bạn hãy xác định xem số lượng sinh viên nhiều nhất trong một nhóm bạn là bao nhiêu?
+
+Input:
+	Dòng đầu tiên là số lượng bộ test T (T ≤ 20).
+	Mỗi test bắt đầu bởi 2 số nguyên N và M (N, M ≤ 100 000).
+	M dòng tiếp theo, mỗi dòng gồm 2 số nguyên u, v (u #v) cho biết sinh viên u là bạn của sinh viên v.
+
+Output: 
+	Với mỗi test, in ra đáp án tìm được trên một dòng.
+
+Input:
+
+2
+
+3 2
+
+1 2
+
+2 3
+
+10 12
+
+1 2
+
+3 1
+
+3 4
+
+5 4
+
+3 5
+
+4 6
+
+5 2
+
+2 1
+
+7 1
+
+1 2
+
+9 10
+
+8 9
+
+Output
+
+3
+
+7
+
+ 
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+vector<int> List[100005];
+bool tick[100005];
+
+void BFS(int u, int &cnt){
+    queue<int> que; que.push(u);
+    tick[u] = true; cnt++;
+    while(!que.empty()){
+        int x = que.front(); que.pop();
+        for(int i = 0; i < List[x].size(); i++){
+            int y = List[x][i];
+            if(!tick[y]){
+                tick[y] = true; cnt++;
+                que.push(y);
+            }
+        }
+    }
+}
+
+void solve(){
+    for(int i = 1; i <= 100000; i++) List[i].clear();
+    memset(tick, false, sizeof(tick));
+
+    int vertex, edge; cin>>vertex>>edge;
+
+    while(edge--){
+        int u, v; cin>>u>>v;
+        List[u].push_back(v);
+        List[v].push_back(u);
+    }
+
+    int res = INT_MIN;
+    for(int i = 1; i <= vertex; i++){
+        if(!tick[i]){
+            int cnt = 0;
+            BFS(i, cnt);
+            res = max(res, cnt);
+        }
+    }
+
+    cout<<res<<endl;
+}
+
+int main(){
+    int a; cin>>a;
+    while(a--){
+        solve();
+    }
+    return 0;
+}

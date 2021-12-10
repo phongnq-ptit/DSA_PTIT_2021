@@ -1,0 +1,80 @@
+Một máy ATM hiện có n (n ≤ 30) tờ tiền có giá trị t[1], t[2], …, t[n]. 
+Hãy tìm cách trả ít tờ nhất với số tiền đúng bằng S 
+(các tờ tiền có giá trị bất kỳ và có thể bằng nhau, mỗi tờ tiền chỉ được dùng một lần).
+
+Input: 
+	Dòng đầu tiên ghi số bộ test T (T<10). Mỗi bộ test gồm 2 số nguyên n và S (S ≤ 10^9). 
+	Dòng thứ hai chứa n số nguyên t[1], t[2], …, t[n] (t[i] ≤ 10^9)
+
+Output: 
+	Với mỗi bộ test ghi ra số tờ tiền ít nhất phải trả.
+	Nếu không thể tìm được kết quả, in ra -1.
+
+
+Input
+
+
+1
+
+3 5
+
+1 4 5
+
+Output
+
+1
+
+
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+int n, s, sum;
+bool is_ok;
+int money[50], tmp[50];
+
+void back_track(int index, int len, int sum){
+    if(index == len + 1 && sum == s) {
+            is_ok = true;
+            return;
+    }
+    
+    if(index == len + 1 && sum != s) 
+        return;
+
+    for(int i = tmp[index - 1] + 1; i <= n; i++){
+        tmp[index] = i;
+        sum += money[tmp[index]];
+        if(sum <= s) back_track(index + 1, len, sum);
+        sum -= money[tmp[index]];
+    }
+}
+
+void solve(){
+    is_ok = false;
+    cin>>n>>s;
+    for(int i = 1; i <= n; i++) cin>>money[i];
+
+    int len;
+    for(int i = 1; i <= n; i++){
+        sum = 0;
+        back_track(1, i, sum);
+        if(is_ok) {
+            len = i;
+            break;
+        }
+    }
+
+    if(is_ok) cout<<len<<endl;
+    else cout<<-1<<endl;
+}
+
+int main(){
+    int a; cin>>a;
+    while(a--){
+        solve();
+    }
+    return 0;
+}
+ 

@@ -1,0 +1,77 @@
+Cho một bàn cờ vua có kích thước n * n, ta biết ràng quân hậu có thể di chuyển theo chiều ngang, dọc, chéo. 
+Vấn đề đặt ra rằng, có n quân hậu, bạn cần đếm số cách đặt n quân hậu này lên bàn cờ sao cho với 2 quân hậu bất kì, 
+chúng không “ăn” nhau.
+
+Input: 
+	Dòng đầu ghi số bộ test T (T<5). Mỗi bộ test ghi một số nguyên dương n duy nhất (không quá 10)
+
+Output:  
+	Ghi kết quả mỗi bộ test trên một dòng. Số cách đặt quân hậu.
+
+
+Input
+
+1
+
+4
+
+Output
+
+2
+
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+int n, cnt;
+int queen[200][200];
+bool col[200]; // đánh dấu cột 
+bool diagonal_left[200]; // đánh dấu đường chéo xuôi (i - j + n)
+bool diagonal_right[200]; // đánh dấu đường chéo ngược (i + j - 1)
+
+void reset(){
+    	cnt = 0;
+    	memset(queen, 0, false);
+	memset(col, false, sizeof(col));
+	memset(diagonal_left, false, sizeof(diagonal_left));
+	memset(diagonal_right, false, sizeof(diagonal_right));
+}
+
+void back_track(int index){
+    if(index == n + 1){
+        cnt++;
+        return;
+    }
+    for(int i = 1; i <= n; i++){
+        if(!col[i] && !diagonal_left[index - i + n] && !diagonal_right[index + i - 1]){
+            col[i] = true;
+            diagonal_left[index - i + n] = true;
+            diagonal_right[index + i - 1] = true;
+            queen[index][i] = 1;
+
+            back_track(index + 1);
+
+            col[i] = false;
+            diagonal_left[index - i + n] = false;
+            diagonal_right[index + i - 1] = false;
+            queen[index][i] = 0;
+        }
+    }
+}
+
+void solve(){
+    reset();
+    cin>>n;
+    
+    back_track(1);
+    cout<<cnt<<endl;
+}
+
+int main(){
+	int a; cin>>a;
+	while(a--){
+		solve();
+	}
+	return 0;
+}

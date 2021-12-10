@@ -1,0 +1,90 @@
+Cho ba số N, P, S. Trong đó, P là một số nguyên tố. 
+Nhiệm vụ của bạn là đưa ra tất cả N số nguyên tố tính từ P có tổng bằng S. 
+Ví dụ với S = 28, P=7, N =2 ta có kết quả 11 + 17 = 28. 
+Với N = 3, P = 2, S = 23 ta có kết quả : {3, 7, 13}, {5, 7, 11}
+
+Input:
+	Dòng đầu tiên đưa vào số lượng bộ test T.
+	Những dòng kế tiếp đưa vào các bộ test. Mỗi bộ test là bộ ba số S, P, N được viết trên một dòng.
+	S, P, N thỏa mãn ràng buộc: 1≤T ≤100; 1 ≤ N ≤ 10; 2≤S, P≤200.
+Output:
+	Với mỗi test, dòng đầu tiên in ra số lượng đáp án tìm được. Mỗi dòng tiếp theo in ra kết quả tìm được theo thứ tự từ điển.
+Input
+
+2
+2  7  28
+3  2  23
+
+Output
+
+1
+
+11 17
+
+2
+
+3 7 13
+
+5 7 11
+
+ 
+#include<bits/stdc++.h>
+
+using namespace std;
+
+int n, p, s;
+bool ok[205] = {false};
+bool tick[205];
+vector<int> prime;
+vector< vector<int> > res;
+
+void is_prime(){
+    for(int i = 2; i <= 200; i++){
+        if(!ok[i]){
+            prime.push_back(i);
+            for(int j = i * i; j <= 200; j += i) ok[j] = true;
+        }
+    }
+}
+
+void back_track(int index, int sum, vector<int> tmp){
+    if(sum == s && tmp.size() == n){
+        res.push_back(tmp);
+        return;
+    }
+    for(int i = index; i < prime.size(); i++){
+        if(!tick[i] && sum + prime[i] <= s && tmp.size() < n){
+            tmp.push_back(prime[i]);
+            tick[i] = true;
+            back_track(i + 1, sum + prime[i], tmp);
+            tick[i] = false;
+            tmp.pop_back();
+        }
+    }
+}
+
+void solve(){
+    res.clear();
+    memset(tick, false, sizeof(tick));
+    cin>>n>>p>>s;
+
+    int pos = upper_bound(prime.begin(), prime.end(), p) - prime.begin();
+
+    vector<int> tmp;
+    back_track(pos, 0, tmp);
+
+    cout<<res.size()<<endl;
+    for(int i = 0; i < res.size(); i++){
+        for(int j = 0; j < res[i].size(); j++) cout<<res[i][j]<<" ";
+        cout<<endl;
+    }
+}
+
+int main(){
+    is_prime();
+    int a; cin>>a;
+    while(a--){
+        solve();
+    }
+    return 0;
+}

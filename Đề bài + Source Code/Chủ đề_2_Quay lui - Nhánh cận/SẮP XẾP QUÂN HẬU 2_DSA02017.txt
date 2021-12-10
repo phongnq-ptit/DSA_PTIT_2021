@@ -1,0 +1,100 @@
+Cho một bàn cờ 8 x 8, mỗi ô có một giá trị A[i][j] nhất định (0 ≤ A[i][j] ≤ 100), 
+tương ứng với điểm số đạt được nếu như bạn đặt một quân cờ vào đó.
+
+Nhiệm vụ của bạn là đặt 8 quân hậu lên bàn cờ, sao cho không có 2 quân nào ăn nhau, và số điểm đạt được là lớn nhất.
+
+Input: 
+	Dòng đầu tiên là số lượng bộ test T (T ≤ 20).
+	Mỗi test gồm 8 dòng, mỗi dòng 8 số nguyên mô tả bàn cờ.
+
+Output:  
+	Với mỗi test, in ra đáp án trên một dòng.
+
+Input
+
+1
+
+1 2 3 4 5 6 7 8
+
+9 10 11 12 13 14 15 16
+
+17 18 19 20 21 22 23 24
+
+25 26 27 28 29 30 31 32
+
+33 34 35 36 37 38 39 40
+
+41 42 43 44 45 46 47 48
+
+48 50 51 52 53 54 55 56
+
+57 58 59 60 61 62 63 64
+
+Output 
+
+260
+
+
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+int res;
+int queen[200];
+int chess[200][200];
+bool col[200]; // đánh dấu cột 
+bool diagonal_left[200]; // đánh dấu đường chéo xuôi (i - j + n)
+bool diagonal_right[200]; // đánh dấu đường chéo ngược (i + j - 1)
+
+void reset(){
+    res = INT_MIN;
+	memset(col, false, sizeof(col));
+	memset(diagonal_left, false, sizeof(diagonal_left));
+	memset(diagonal_right, false, sizeof(diagonal_right));
+}
+
+int sum(int arr[], int n){
+    int ans = 0;
+    for(int i = 1; i <= n; i++) ans += arr[i];
+    return ans;
+}
+
+void back_track(int index){
+    for(int i = 1; i <= 8; i++){
+        if(!col[i] && !diagonal_left[index - i + 8] && !diagonal_right[index + i - 1]){
+            queen[index] = chess[index][i];
+            col[i] = true;
+            diagonal_left[index - i + 8] = true;
+            diagonal_right[index + i - 1] = true;
+            
+            if(index == 8){
+                int tmp = sum(queen, 8);
+                res = max(res, tmp);
+            } else back_track(index + 1);
+
+            col[i] = false;
+            diagonal_left[index - i + 8] = false;
+            diagonal_right[index + i - 1] = false;
+        }
+    }
+}
+
+void solve(){
+    reset();
+    for(int i = 1; i <= 8; i++)
+        for(int j = 1; j <= 8; j++)
+            cin>>chess[i][j];
+    
+    back_track(1);
+
+    cout<<res<<endl;
+}
+
+int main(){
+	int a; cin>>a;
+	while(a--){
+		solve();
+	}
+	return 0;
+}

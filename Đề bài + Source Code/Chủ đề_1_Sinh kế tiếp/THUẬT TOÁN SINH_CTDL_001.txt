@@ -1,0 +1,55 @@
+Một xâu nhị phân độ dài n được gọi là thuận nghịch hay đối xứng nếu đảo ngược xâu nhị phân đó ta vẫn nhận được chính nó. 
+Cho số tự nhiên n (n nhập từ bàn phím). Hãy viết chương trình liệt kê tất cả các xâu nhị phân thuận nghịch có độ dài n.  
+Hai phần tử khác nhau của xâu thuận nghịch được ghi cách nhau một vài khoảng trống.
+
+Ví dụ với n = 4 ta tìm được 4 xâu nhị phân thuận nghịch như dưới đây.
+
+                      0                      0                      0                      0         
+
+                      0                      1                      1                      0         
+
+                      1                      0                      0                      1         
+
+                      1                      1                      1                      1
+
+
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+// in ra cau hinh
+void output(int arr[], int n){
+	for(int i = 0; i < n; i++) cout<<arr[i]<<" ";
+	cout<<endl;
+}
+
+// kiem tra xem xau nhi phan co doi xung khong
+bool is_ok(int arr[], int n){
+	for(int i = 0; i < n/2; i++){
+		if(arr[i] != arr[n - i - 1]) return false;
+	}
+	return true;
+}
+
+// sinh xau nhi phan bang quay lui
+void next_binary(int arr[], int n, int len){
+	for(int i = 0; i <= 1; i++){
+		arr[len] = i;
+		if(len == n - 1){
+			if(is_ok(arr, n)) output(arr, n);
+		} else next_binary(arr, n, len + 1);
+	}
+}
+
+void solve(){
+	int n; cin>>n;
+	int arr[n] = {};
+	
+	next_binary(arr, n, 0);
+}
+
+int main(){
+	solve();
+	return 0;
+}

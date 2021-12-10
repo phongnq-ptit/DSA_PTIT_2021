@@ -1,0 +1,89 @@
+Khi chat chit vui vẻ, anh em chiến hữu thường hay gõ HAHA để thể hiện sự sảng khoái. 
+Đôi khi cũng có thể gõ HAHAAAAA chẳng hạn cho thêm phần nhấn mạnh.
+Giả sử một xâu ký tự được coi là HAHA nếu thỏa mãn các điều kiện:
+	Ký tự đầu tiên phải là chữ H, ký tự cuối cùng phải là chữ A
+	Không có hai chữ H nào liền nhau
+Cho trước độ dài N, hãy liệt kê tất cả các xâu ký tự HAHA theo thứ tự từ điển.
+
+Input
+	Dòng đầu ghi số bộ test T (không quá 10)
+	Mỗi bộ test ghi độ dài N (2 <= N < 16)
+Output
+	Với mỗi bộ test, ghi ra tất cả các xâu HAHA tìm được theo thứ tự từ điển, 
+	mỗi xâu viết trên một dòng.
+
+Input
+
+2
+
+2
+
+4
+
+Output
+
+HA
+
+HAAA
+
+HAHA
+
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+/*
+	A tuong duong 0
+	H truong duong 1
+*/
+vector<string> res;
+
+bool check(string s){
+	if(s[0] != 'H' || s[s.length() - 1] != 'A') return false;
+	for(int i = 1; i < s.length(); i++){
+		if(s[i - 1] == 'H' && s[i] == 'H') return false;
+	}
+	return true;
+}
+
+bool check_continue = true;
+void next_binary(string &s){
+	
+	if(check(s)) res.push_back(s); // luu cac cau hinh thoa man yeu cau
+	
+	int pos = s.length() - 1;
+	while(pos >= 0 && s[pos] == 'H') s[pos--] = 'A';
+	
+	if(pos < 0){
+		check_continue = false;
+		return;
+	}
+	
+	s[pos] = 'H';
+}
+
+void solve(){
+	int n; cin>>n;
+	string s;
+	for(int i = 0; i < n; i++) s += 'A'; // khoi tao cau hinh dau tien
+	
+	// lap tim ra cac cau hinh tiep theo
+	while(check_continue){
+		next_binary(s);
+	}
+	
+	// in ket qua
+	for(int i = 0; i < res.size(); i++) cout<<res[i]<<endl;
+}
+
+int main(){
+	int a; cin>>a;
+	while(a--){
+		solve();
+		check_continue = true;
+		res.clear();
+	}
+	return 0;
+}
+

@@ -1,0 +1,66 @@
+Cho biểu thức số học, hãy cho biết biểu thức số học có dư thừa các cặp ký hiệu ‘(’,’) ‘ hay không?
+
+Input:
+	Dòng đầu tiên đưa vào số lượng bộ test T;
+	Những dòng tiếp theo mỗi dòng đưa vào một bộ test. Mỗi bộ test là một biểu thức tiền tố exp.
+Output:
+	Đưa ra kết quả mỗi test theo từng dòng.
+Ràng buộc:
+	T, exp thỏa mãn ràng buộc: 1≤T≤100; 2≤length(exp)≤20.
+
+
+Input
+
+3
+
+((a+b))
+
+(a + (b)/c)
+
+(a + b*(c-d))
+
+Output
+
+Yes
+
+Yes
+
+No
+
+ 
+
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+void solve(){
+    string s; getline(cin, s);
+    stack<char> st;
+    bool is_ok; 
+
+    for(int i = 0; i < s.length(); i++){
+        if(s[i] == ')'){
+            is_ok = true;
+            char tmp = st.top(); st.pop();
+            while(tmp != '('){
+                if(tmp == '+' || tmp == '-' || tmp == '*' || tmp == '/')
+                    is_ok = false;
+                
+                tmp = st.top(); st.pop();
+            }
+            if(is_ok) break;
+        } else st.push(s[i]);
+    }
+
+    cout<<(is_ok ? "Yes" : "No")<<endl;
+}
+
+int main(){
+    int a; cin>>a;
+    while(a--){
+        scanf("\n");
+        solve();
+    }
+    return 0;
+}

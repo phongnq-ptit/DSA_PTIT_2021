@@ -1,0 +1,75 @@
+Yêu cầu bạn xây dựng một stack với các truy vấn sau đây:
+	“PUSH x”: Thêm phần tử x vào stack (0 ≤ x ≤ 1000).
+	“PRINT”: In ra phần tử đầu tiên của stack. Nếu stack rỗng, in ra “NONE”.
+	“POP”: Xóa phần tử đầu tiên của stack. Nếu stack rỗng, không làm gì cả.
+
+Input:
+	Dòng đầu tiên là số lượng truy vấn Q (Q ≤ 100000).
+	Mỗi truy vấn có dạng như trên.
+
+Output: 
+	Với mỗi truy vấn “PRINT”, hãy in ra phần tử đầu tiên của stack. 
+	Nếu stack rỗng, in ra “NONE”.
+
+
+
+Input:
+
+9
+
+PUSH 1
+
+PUSH 2
+
+POP
+
+PRINT
+
+PUSH 3
+
+PRINT
+
+POP
+
+POP
+
+PRINT
+
+Output
+
+1
+
+3
+
+NONE
+
+ 
+
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+void solve(){
+    	int t; cin>>t;
+	string s;
+	int n;
+	stack<int> stk;
+	while(t--){
+		cin>>s;
+		if(s == "PUSH"){
+			cin>>n;
+			stk.push(n);
+		}
+		else if(s == "POP" && stk.size() > 0) stk.pop();
+		else if(s == "PRINT"){
+			if(stk.size() == 0) cout<<"NONE"<<endl;
+			else cout<<stk.top()<<endl;
+		}
+	}
+}
+
+int main(){
+	solve();
+    	return 0;
+}

@@ -1,0 +1,61 @@
+Hãy thực hiện thuật toán sắp xếp chọn trên dãy N số nguyên. 
+Ghi ra các bước thực hiện thuật toán.
+
+Dữ liệu vào: 
+	Dòng 1 ghi số N (không quá 100). Dòng 2 ghi N số nguyên dương (không quá 100).
+
+Kết quả: 
+	Ghi ra màn hình từng bước thực hiện thuật toán. 
+	Mỗi bước trên một dòng, các số trong dãy cách nhau đúng một khoảng trống.
+
+
+Input
+
+4
+
+5 7 3 2
+
+Output
+
+Buoc 1: 2 7 3 5
+
+Buoc 2: 2 3 7 5
+
+Buoc 3: 2 3 5 7
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+int step = 1;
+void print_array(int arr[], int n){
+    cout<<"Buoc "<<step++<<": ";
+    for(int i = 0; i < n; i++) cout<<arr[i]<<" ";
+    cout<<endl;
+}
+
+void selection_sort(int arr[], int n){
+    for(int i = 0; i < n - 1; i++){
+        int min_idx = i;
+        for(int j = i + 1; j < n; j++){
+            if(arr[min_idx] > arr[j]) min_idx = j; 
+        }
+
+        int temp = arr[i];
+        arr[i] = arr[min_idx];
+        arr[min_idx] = temp;
+        print_array(arr, n);
+    }
+}
+
+void solve(){
+    int n; cin>>n;
+    int arr[n];
+    for(int i = 0; i < n; i++) cin>>arr[i];
+    selection_sort(arr, n);
+}
+
+int main(){
+    solve();
+    return 0;
+}

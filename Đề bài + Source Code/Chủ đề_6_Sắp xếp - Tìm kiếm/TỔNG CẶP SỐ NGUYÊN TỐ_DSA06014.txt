@@ -1,0 +1,61 @@
+Cho số tự nhiên N. 
+Hãy tìm cặp số nguyên tố đầu tiên có tổng là N. 
+Nếu không tồn tại cặp số nguyên tố có tổng bằng N, hãy đưa ra -1.
+
+Input:
+	Dòng đầu tiên đưa vào số lượng bộ test T.
+	Những dòng kế tiếp đưa vào các bộ test. Mỗi bộ test gồm là một số N được ghi trên một dòng.
+	T, N thỏa mãn ràng buộc: 1≤T≤100; 1≤ N ≤106.
+Output:
+	Đưa ra kết quả mỗi test theo từng dòng.
+
+
+Input:
+
+2
+4
+
+8
+
+Output:
+
+2 2
+
+3 5
+
+ 
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+bool is_prime(int n){
+    if(n < 2) return false;
+    if(n == 2) return true;
+    if(n % 2 == 0) return false;
+    for(int i = 3; i <= sqrt(n); i += 2){
+        if(n % i == 0) return false;
+    }
+    return true;
+}
+
+void solve(){
+    int n; cin>>n;
+    int check = -1;
+    for(int i = 2; i <= n/2; i++){
+        if(is_prime(i) && is_prime(n - i)){
+            cout<<i<<" "<<n - i<<endl;
+            check = 0;
+            break;
+        }
+    }
+    if(check == -1) cout<<check<<endl;
+}
+
+int main(){
+    int a; cin>>a;
+    while(a--){
+        solve();
+    }
+    return 0;
+}

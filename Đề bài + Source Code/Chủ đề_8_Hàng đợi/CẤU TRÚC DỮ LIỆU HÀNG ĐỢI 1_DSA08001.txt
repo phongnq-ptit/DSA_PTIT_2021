@@ -1,0 +1,103 @@
+Ban đầu cho một queue rỗng. Bạn cần thực hiện các truy vấn sau:
+	1. Trả về kích thước của queue
+	2. Kiểm tra xem queue có rỗng không, nếu có in ra “YES”, nếu không in ra “NO”.
+	3.Cho một số nguyên và đẩy số nguyên này vào cuối queue.
+	4. Loại bỏ phần tử ở đầu queue nếu queue không rỗng, nếu rỗng không cần thực hiện.
+	5. Trả về phần tử ở đầu queue, nếu queue rỗng in ra -1.
+	6. Trả về phần tử ở cuối queue, nếu queue rỗng in ra -1.
+
+
+Dữ liệu vào
+	Dòng đầu tiên chứa số nguyên T là số bộ dữ liệu, mỗi bộ dữ theo dạng sau.
+	Dòng đầu tiên chứa số nguyên n - lượng truy vấn (1 ≤ n ≤ 1000)
+	N dòng tiếp theo, mỗi dòng sẽ ghi loại truy vấn như trên, với truy vấn loại 3 sẽ có thêm một số nguyên, 
+	không quá 10^6.
+
+Kết quả: 
+	In ra kết quả của các truy vấn..
+
+
+
+Input
+
+1
+
+14
+
+3 1
+
+3 2
+
+3 3
+
+5
+
+6
+
+4
+
+4
+
+4
+
+4
+
+4
+
+3 5
+
+3 6
+
+5
+
+1
+
+Output
+
+1
+
+3
+
+5
+
+2
+
+ 
+
+#include<bits/stdc++.h>
+
+using namespace std;
+void solve(){
+    int n, k; cin>>n;
+    queue<int> que;
+    while(n--){
+        cin>>k;
+        if(k == 1) cout<<que.size()<<endl;
+        if(k == 2) {
+            if(que.empty()) cout<<"YES"<<endl;
+            else cout<<"NO"<<endl;
+        }
+        if(k == 3){
+            int value; cin>>value;
+            que.push(value);
+        }
+        if(k == 4 && !que.empty()) que.pop();
+        if(k == 5) {
+            if(que.empty()) cout<<-1<<endl;
+            else cout<<que.front()<<endl;
+        }
+        if(k == 6){
+            if(que.empty()) cout<<-1<<endl;
+            else cout<<que.back()<<endl;
+        }
+    }
+}
+
+int main(){
+    int a; cin>>a;
+    while(a--){
+        solve();
+    }
+    return 0;
+}
+ 

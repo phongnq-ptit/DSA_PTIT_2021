@@ -1,0 +1,53 @@
+Một con ếch có thể nhảy 1, 2, 3 bước để có thể lên đến một đỉnh cần đến. 
+Hãy đếm số các cách con ếch có thể nhảy đến đỉnh.
+
+Input:
+	Dòng đầu tiên đưa vào số lượng bộ test T.
+	Những dòng kế tiếp đưa vào các bộ test. 
+	Mỗi bộ test là số n là số bước con ếch có thể lên được đỉnh.
+	T, n thỏa mãn ràng buộc: 1≤T≤100;  1≤n ≤50.
+Output:
+	Đưa ra kết quả mỗi test theo từng dòng.
+
+
+Input
+
+
+2
+1
+5
+
+Output
+
+1
+13
+
+ 
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+typedef long long ll;
+ll step[101];
+void frog(){
+    step[1] = 1; // (1)
+    step[2] = 2; // (11,2)
+    step[3] = 4; // (111,12,21,3)
+    for(int i = 4; i < 101; i++)
+        step[i] = step[i - 1] + step[i - 2] +step[i - 3];
+}
+
+void solve(){
+    int n; cin>>n;
+    cout<<step[n]<<endl;
+}
+
+int main(){
+    frog();
+    int a; cin>>a;
+    while(a--){
+        solve();
+    }
+    return 0;
+}

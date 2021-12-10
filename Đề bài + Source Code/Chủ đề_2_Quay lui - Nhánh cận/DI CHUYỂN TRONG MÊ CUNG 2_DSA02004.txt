@@ -1,0 +1,129 @@
+Cho một mê cung bao gồm các khối được biểu diễn như một ma trận nhị phân A[N][N]. 
+Một con chuột đi từ ô đầu tiên góc trái (A[0][0]) đến ô cuối cùng góc phải (A[N-1][N-1]) theo nguyên tắc:
+	Down (D): Chuột được phép xuống dưới nếu ô dưới nó có giá trị 1.
+	Right (R): Chuột được phép sang phải dưới nếu ô bên phải nó có giá trị 1.
+	Left (L): Chuột được phép sang trái dưới nếu ô bên trái nó có giá trị 1.
+	Up (U): Chuột được phép lên trên nếu ô trên nó có giá trị 1.
+Hãy đưa ra tất cả các hành trình của con chuột trên mê cung. 
+Đưa ra -1 nếu chuột không thể đi đến đích.
+
+Input:
+	Dòng đầu tiên đưa vào số lượng bộ test T.
+	Những dòng kế tiếp đưa vào các bộ test. Mỗi bộ test gồm hai phần: 
+		phần thứ nhất đưa vào số N là kích cỡ của mê cung; 
+		dòng tiếp theo đưa vào ma trận nhị phân A[N][N].
+	T, N, A[i][j] thỏa mãn ràng buộc: 1≤T ≤10; 2≤N≤8; 0≤A[i][j] ≤1.
+Output:
+	Đưa ra các xâu ký tự được sắp xếp, trong đó mỗi xâu là một đường đi của con chuột trong mê cung. 
+	In ra đáp án theo thứ tự từ điển. Đưa ra -1 nếu chuột không đi được đến đích.
+Input
+
+3
+4
+1 0 0 0
+
+1 1 0 1
+
+0 1 0 0
+
+0 1 1 1
+4
+1 0 0 0
+
+1 1 0 1
+
+1 1 0 0
+
+0 1 1 1
+
+5
+
+1 0 0 0 0
+
+1 1 1 1 1
+
+1 1 1 0 1
+
+0 0 0 0 1
+
+0 0 0 0 1
+
+Output
+
+DRDDRR
+
+DDRDRR DRDDRR
+
+DDRRURRDDD DDRURRRDDD DRDRURRDDD DRRRRDDD
+
+ 
+
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+int n;
+int arr[20][20];
+bool tick[20][20];
+vector<string> ans;
+
+void back_track(int i, int j, string res){
+    if(i == n && j == n) ans.push_back(res);
+
+    if(arr[i + 1][j] == 1 && i < n && tick[i + 1][j] == false) {
+        tick[i][j] = true;
+        back_track(i + 1, j, res + "D");
+        tick[i][j] = false;
+    }
+    if(arr[i][j + 1] == 1 && j < n && tick[i][j + 1] == false) {
+        tick[i][j] = true;
+        back_track(i, j + 1, res + "R");
+        tick[i][j] = false;
+    }
+    if(arr[i - 1][j] == 1 && i > 1 && tick[i - 1][j] == false) {
+        tick[i][j] = true;
+        back_track(i - 1, j, res + "U");
+        tick[i][j] = false;
+    }
+    if(arr[i][j - 1] == 1 && j > 1 && tick[i][j - 1] == false) {
+        tick[i][j] = true;
+        back_track(i, j - 1, res + "L");
+        tick[i][j] = false;
+    }
+}
+
+void solve(){
+    memset(tick, false, sizeof(tick));
+    cin>>n;
+    for(int i = 1; i <= n; i++)
+        for(int j = 1; j <= n; j++)
+            cin>>arr[i][j];
+
+    if(arr[1][1] == 0 || arr[n][n] == 0){
+        cout<<-1<<endl;
+        return;
+    }
+
+    back_track(1, 1, "");
+
+    if(ans.empty()) cout<<-1;
+    else {
+        sort(ans.begin(), ans.end());
+        for(int i = 0; i < ans.size(); i++)
+            cout<<ans[i]<<" ";
+    }
+    cout<<endl;
+}
+
+int main(){
+    int a; cin>>a;
+    while(a--){
+        solve();
+        ans.clear();
+    }
+    return 0;
+}
+ 
+
+ 

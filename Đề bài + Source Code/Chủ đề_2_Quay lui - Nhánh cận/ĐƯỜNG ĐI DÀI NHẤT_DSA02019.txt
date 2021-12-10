@@ -1,0 +1,111 @@
+Cho đồ thị vô hướng có N đỉnh và M cạnh. 
+Bạn hãy tìm đường đi dài nhất trên đồ thị, sao cho mỗi cạnh chỉ được đi qua nhiều nhất 1 lần.
+
+Input: 
+	Dòng đầu tiên là số lượng bộ test T (T ≤ 10). 
+	Mỗi test bắt đầu bằng số nguyên N và M (1 ≤ N, M ≤ 20). 
+	Các đỉnh đánh dấu từ 0, 1, …, N-1. 
+	M dòng tiếp theo, mỗi dòng gồm 2 số u, v cho biết có cạnh nối giữa uàv.
+
+Output: 
+	Với mỗi test, in ra đáp án tìm được, mỗi xâu in ra trên một dòng.
+
+
+Input
+
+2
+
+3 2
+
+0 1
+
+1 2
+
+15 16
+
+0 2
+
+1 2
+
+2 3
+
+3 4
+
+3 5
+
+4 6
+
+5 7
+
+6 8
+
+7 8
+
+7 9
+
+8 10
+
+9 11
+
+10 12
+
+11 12
+
+10 13
+
+12 14
+
+Output 
+
+2
+
+12
+
+ 
+#include<bits/stdc++.h>
+
+using namespace std;
+
+int n, m, res;
+vector<int> graph[25];
+vector< vector<bool> > tick;
+
+void DFS(int u, int step){
+    res = max(res, step);
+    for(int v: graph[u]){
+        if(!tick[u][v]){
+            tick[u][v] = tick[v][u] = true;
+            DFS(v, step + 1);
+            tick[u][v] = tick[v][u] = false;
+        }
+    }
+}
+
+void solve(){
+    for(int i = 0; i < 25; i++) graph[i].clear();
+    res = INT_MIN;
+    cin>>n>>m;
+
+    int u, v;
+    while(m--){
+        cin>>u>>v;
+        graph[u].push_back(v);
+        graph[v].push_back(u);
+    }
+
+    for(int i = 0; i < n; i++){
+        tick.assign(n + 1, vector<bool>(n + 1, false));
+        DFS(i, 1);
+    }
+
+    cout<<res - 1<<endl;
+}
+
+int main(){
+    int a; cin>>a;
+    while(a--){
+        solve();
+    }
+    return 0;
+}
+ 

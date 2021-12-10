@@ -1,0 +1,56 @@
+P(n, k) là số phép biểu diễn các tập con có thứ tự gồm k phần tử của tập gồm n phần tử. 
+Số P(n, k) được định nghĩa theo công thức sau:
+
+		
+P(n, k) = 0 nếu k > n
+P(n, k) = n.(n - 1).(n - 2) ... (n - k + 1) nếu k < n
+
+Cho số hai số n, k. Hãy tìm P(n,k) theo modulo 10^9+7.
+
+Input:
+	Dòng đầu tiên đưa vào số lượng bộ test T.
+	Những dòng kế tiếp đưa vào các bộ test. Mỗi bộ test là một cặp số n, k được viết trên một dòng.
+	T, n, k thỏa mãn ràng buộc: 1 ≤ T ≤ 100;  1 ≤ n,k ≤ 1000.
+Output:
+	Đưa ra kết quả mỗi test theo từng dòng.
+
+Input
+
+2
+5 2
+4 2
+
+Output
+
+20
+12
+ 
+
+#include<bits/stdc++.h>
+
+using namespace std;
+const long long MOD = 1e9 + 7;
+
+void solve(){
+    int n, k; cin>>n>>k;
+
+    long long res = 1;
+    if(k > n) cout<<0;
+    else{
+        for(int i = n; i >= n - k + 1; i--){
+            res = (res*i)%MOD;
+        }
+        cout<<res;
+    }
+
+    cout<<endl;
+}
+
+int main(){
+    int a; cin>>a;
+    while(a--){
+        solve();
+    }
+    return 0;
+}
+ 

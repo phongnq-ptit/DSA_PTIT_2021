@@ -1,0 +1,137 @@
+Cho số nguyên dương N. 
+Nhiệm vụ của bạn là hãy liệt kê tất cả các cách phân tích số tự nhiên N thành tổng các số tự nhiên nhỏ hơn hoặc bằng N. 
+Phép hoán vị vủa một cách được xem là giống nhau. 
+Ví dụ với N = 5 ta có kết quả là: (5), (4, 1), (3, 2), (3, 1, 1), (2, 2, 1), (2, 1, 1, 1), (1, 1, 1, 1, 1) .
+
+Input:
+	Dòng đầu tiên đưa vào số lượng test T.
+	Những dòng kế tiếp đưa vào các bộ test. Mỗi bộ test là một số tự nhiên N được viết trên một dòng.
+	T, n thỏa mãn ràng buộc: 1≤T, N≤10.
+Output:
+	Đưa ra kết quả mỗi test theo từng dòng.
+
+
+
+Input
+
+2
+
+4
+
+5
+
+Output
+
+(4) (3 1) (2 2) (2 1 1) (1 1 1 1)
+
+(5) (4 1)  (3 2)  (3 1 1) (2 2 1)  (2 1 1 1)  (1 1 1 1 1)
+
+// CÁCH 1 SINH PHÂN HOẠCH THEO PHƯƠNG PHÁP SINH
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+int n, cnt;
+bool is_ok = false; 
+int arr[20] = {};
+
+void init(){
+    cnt = 1;
+    arr[cnt] = n;
+}
+
+void print_result(){
+    cout<<"(";
+    for(int i = 1; i < cnt; i++) cout<<arr[i]<<" ";
+    cout<<arr[cnt]<<") ";
+}
+
+// sinh phân hoạch
+void next(){
+    int i = cnt;
+    while(i >= 1 && arr[i] == 1) i--; // tìm số đầu tiên khác 1
+    
+    if(i < 1) {
+        is_ok = true;
+        return;
+    }
+
+    int tmp = cnt - i + 1; // số lượng số 1 đã bỏ qua
+    arr[i] -= 1; // giảm số "đầu tiên khác 1" xuống 1 đơn vị
+    cnt = i; // gán lại biến đếm cho vị trí i
+    int a = tmp / arr[i]; 
+    int b = tmp % arr[i];
+
+    if(a != 0)
+        for(int j = 1; j <= a; j++) 
+            arr[++cnt] = arr[i];
+
+    if(b != 0)
+        arr[++cnt] = b;
+}
+
+void solve(){
+    is_ok = false;
+    cin>>n;
+    init(); //khởi tạo cấu hình đầu tiên
+
+    while(!is_ok){
+        print_result();
+        next();
+    }
+    cout<<endl;
+}
+
+int main(){
+    int a; cin>>a;
+    while(a--){
+        solve();
+    }
+    return 0;
+}
+
+// CÁCH 2 SINH PHÂN HOẠCH BẰNG QUAY LUI
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+int n, cnt;
+int num[20] = {};
+
+void print_result(int index){
+    cout<<"(";
+    for(int i = 1; i < index; i++) cout<<num[i]<<" ";
+    cout<<num[index]<<") ";
+}
+
+void back_track(int index){
+    for(int i = num[index - 1]; i >= 1; i--){
+        num[index] = i;
+        n -= i;
+        if(n == 0){
+            cnt++;
+            print_result(index);
+        } else if(n > 0) back_track(index + 1);
+        n += i;
+    }
+}
+
+void solve(){
+    cnt = 0;
+    cin>>n;
+    num[0] = n;
+
+    back_track(1);
+
+    cout<<endl;
+}
+
+int main(){
+    int a; cin>>a;
+    while(a--){
+        solve();
+    }
+    return 0;
+}
